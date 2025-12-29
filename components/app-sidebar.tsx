@@ -1,62 +1,84 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+"use client";
+
+import {
+  BookCheck,
+  Calendar,
+  Home,
+  Search,
+  // Settings,
+  User,
+} from "lucide-react";
 
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import { useState } from "react";
 
 // Menu items.
 const items = [
   {
-    title: "Home",
+    title: "Dashboard",
     url: "/",
     icon: Home,
   },
   {
     title: "Employee List",
     url: "/employee-list",
-    icon: Inbox,
+    icon: User,
   },
   {
     title: "Attendance List",
     url: "/attendance-list",
-    icon: Inbox,
+    icon: BookCheck,
   },
   {
     title: "Calendar",
-    url: "#",
+    url: "/calendar",
     icon: Calendar,
   },
   {
-    title: "Timings",
-    url: "#",
+    title: "UID Master",
+    url: "/uid-master",
     icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
   },
 ];
 
 export default function AppSidebar() {
+  const { toggleSidebar, isMobile } = useSidebar();
+  const [isActiveMenu, setIsActiveMenu] = useState(0);
+
+  const handleMobileToggle = () => {
+    if (isMobile) {
+      toggleSidebar();
+    }
+  };
+
   return (
-    <Sidebar>
+    <Sidebar variant="floating">
+      <SidebarHeader className="pl-3 pt-3 border-b">
+        Welcome, Admin
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+              {items.map((item, index) => (
+                <SidebarMenuItem key={item.title} onClick={handleMobileToggle}>
+                  <SidebarMenuButton
+                    asChild
+                    className="hover:[&>span]:font-semibold transition-all *:active:bg-neutral-500"
+                    isActive={index === isActiveMenu}
+                    onClick={() => setIsActiveMenu(index)}
+                  >
                     <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
