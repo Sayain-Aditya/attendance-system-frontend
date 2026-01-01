@@ -17,7 +17,9 @@ const EmployeeListPage = () => {
         throw new Error(`HTTP error: Status ${response.status}`);
       }
       const result = await response.json(); // Parse the response body as JSON
+
       setData(result.data);
+
       console.log(result.data);
     } catch (err) {
       setData([]);
