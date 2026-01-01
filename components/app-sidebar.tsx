@@ -26,28 +26,28 @@ import { useState } from "react";
 // Menu items.
 const items = [
   {
-    title: "Dashboard",
-    url: "/",
+    title: "Admin Dashboard",
+    url: "/admin",
     icon: Home,
   },
   {
     title: "Employee List",
-    url: "/employee-list",
+    url: "/admin/employee-list",
     icon: User,
   },
   {
     title: "Attendance List",
-    url: "/attendance-list",
+    url: "/admin/attendance-list",
     icon: BookCheck,
   },
   {
     title: "Calendar",
-    url: "/calendar",
+    url: "/admin/calendar",
     icon: Calendar,
   },
   {
     title: "UID Master",
-    url: "/uid-master",
+    url: "/admin/uid-master",
     icon: Search,
   },
 ];
@@ -75,9 +75,9 @@ export default function AppSidebar() {
                 <SidebarMenuItem key={item.title} onClick={handleMobileToggle}>
                   <SidebarMenuButton
                     asChild
-                    className="hover:[&>span]:font-semibold transition-all *:active:bg-neutral-500"
                     isActive={index === isActiveMenu}
                     onClick={() => setIsActiveMenu(index)}
+                    size="lg"
                   >
                     <Link href={item.url}>
                       <item.icon />
