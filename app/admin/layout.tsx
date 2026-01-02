@@ -11,7 +11,7 @@ export default function RootLayout({
       <aside>
         <AppSidebar />
       </aside>
-      <main className="py-2 mx-4 pr-2 w-full">
+      <main className="max-md:p-3 lg:py-2 lg:mx-4 lg:pr-2 w-full">
         <SidebarTrigger className="lg:hidden" />
         {children}
       </main>

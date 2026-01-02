@@ -1,5 +1,6 @@
 "use client";
 
+import Header from "@/components/Header";
 import { TableLoadingSkeleton } from "@/components/LoadingSkeleton";
 import {
   DropdownMenu,
@@ -7,6 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -44,8 +46,8 @@ const AttendanceListPage = () => {
   }, [filter]);
 
   return (
-    <div>
-      <div className="py-2.5 text-lg font-light">Attendance List</div>
+    <section className="space-y-2">
+      <Header text="Attendance List" />
 
       <DropdownMenu>
         <DropdownMenuTrigger className="mb-2.5 px-2.5 py-1.5 font-light flex items-center gap-1 bg-neutral-100 w-fit rounded-md border border-neutral-200 capitalize">
@@ -70,8 +72,14 @@ const AttendanceListPage = () => {
       {!loading && data.length === 0 && <div>no attendance record</div>}
 
       {!loading && data.length !== 0 && (
-        <div className="flex flex-col">
-          <ul className="grid grid-cols-7 items-end gap-10 w-full px-5 py-2.5 bg-neutral-100 rounded-t-lg border border-b-transparent border-neutral-200 uppercase text-xs">
+        <div className="flex flex-col overflow-x-auto">
+          <ul
+            className={cn(
+              "grid grid-cols-7 items-end gap-10 w-full min-w-6xl",
+              "border border-b-0 border-neutral-200",
+              "px-5 py-2.5 bg-neutral-100 rounded-t-lg uppercase text-xs"
+            )}
+          >
             <li className="grid">
               <span className="leading-none font-medium">Employee Name</span>
               <span className="leading-none font-light">Employee ID</span>
@@ -87,7 +95,11 @@ const AttendanceListPage = () => {
           {data.map((item: AttendanceList, index: number) => (
             <ul
               key={index}
-              className="grid grid-cols-7 items-center gap-10 w-full px-5 py-3.5 border-s border-e border-t last:border-b last:rounded-b-lg *:text-sm"
+              className={cn(
+                "grid grid-cols-7 items-center gap-10 w-full min-w-6xl px-5 py-3.5",
+                "border-s border-e border-t last:border-b last:rounded-b-lg",
+                "*:text-sm"
+              )}
             >
               <li className="grid">
                 <span className="leading-none font-medium">
@@ -124,7 +136,7 @@ const AttendanceListPage = () => {
           ))}
         </div>
       )}
-    </div>
+    </section>
   );
 };
 
