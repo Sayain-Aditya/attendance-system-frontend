@@ -4,16 +4,25 @@ type AttendanceList = {
   date: string;
   scanStatus: string;
   user: {
+    _id: string;
     name: string;
     role: string;
     uid: string;
+    employeeId: string;
   };
 };
 
 type Employee = {
+  _id: string;
   name: string;
+  employeeId: string;
   uid: string;
   role: string;
+  email: string;
+  address: string;
+  profileImage: string;
+  isActive: boolean;
+  mobileNumber: number;
 };
 
 type UID = {
