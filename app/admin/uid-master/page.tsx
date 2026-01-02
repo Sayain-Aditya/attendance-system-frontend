@@ -2,6 +2,7 @@
 
 import Header from "@/components/Header";
 import { TableLoadingSkeleton } from "@/components/LoadingSkeleton";
+import { Button } from "@/components/ui/button";
 import { Pencil, Trash } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
@@ -43,36 +44,45 @@ const UIDMaster = () => {
       {!loading && data.length === 0 && <div>no attendance record</div>}
 
       {!loading && data && (
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-2.5">
           {data.map((item: UID, index: number) => (
             <div
               key={index}
               className="w-full flex items-center justify-between px-3 py-2.5 bg-neutral-100 rounded-lg border border-neutral-200 gap-16"
             >
-              <ul className="grid grid-cols-4 gap-10 w-full">
-                <li>{item.uid}</li>
-                <li
-                  className={`text-sm px-3 py-1 rounded-full font-semibold w-fit ${
-                    item.isUsed
-                      ? "bg-green-200 text-green-600"
-                      : "bg-red-200 text-red-500"
-                  }`}
-                >
-                  {item.isUsed ? "Active" : "Inactive"}
+              <ul className="flex items-center justify-between gap-10 w-full *:basis-1/4 *:text-sm">
+                <li className="font-medium">{item.uid}</li>
+
+                <li>
+                  <span
+                    className={`text-sm px-3 py-1 rounded-full font-semibold w-fit ${
+                      item.isUsed
+                        ? "bg-green-200 text-green-600"
+                        : "bg-red-200 text-red-500"
+                    }`}
+                  >
+                    {item.isUsed ? "Active" : "Inactive"}
+                  </span>
                 </li>
-                <li>{item.employeeName ?? "--"}</li>
-                <li>{item.employeeUID ?? "--"}</li>
+
+                <li className={`${!item.employeeName && "text-red-500"}`}>
+                  {item.employeeName ?? "Unassigned"}
+                </li>
+
+                <li className={`${!item.employeeId && "text-red-500"}`}>
+                  {item.employeeId ?? "No Employee Id"}
+                </li>
               </ul>
 
-              <div className="flex items-center gap-5">
-                <button className="px-2.5 py-1 bg-white rounded-md border border-neutral-800 flex items-center justify-center gap-2">
-                  <Pencil size={14} />
+              <div className="flex items-center gap-3">
+                <Button size="sm" variant="outline">
+                  <Pencil />
                   Update
-                </button>
-                <button className="px-2.5 py-1 bg-red-400 rounded-md border border-neutral-800 text-white flex items-center justify-center gap-2">
-                  <Trash size={14} />
+                </Button>
+                <Button size="sm" variant="destructive">
+                  <Trash />
                   Delete
-                </button>
+                </Button>
               </div>
             </div>
           ))}

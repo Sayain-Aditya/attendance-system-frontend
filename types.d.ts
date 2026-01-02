@@ -30,6 +30,7 @@ type UID = {
   isUsed: boolean;
   employeeName: string;
   employeeUID: string;
+  employeeId: string;
 };
 
 type DashboardTypes = {

@@ -4,6 +4,7 @@ import ActionsMenu from "@/components/ActionsMenu";
 import Header from "@/components/Header";
 import { useEffect, useState } from "react";
 import { AttendanceLoadingSkeleton } from "../../../components/LoadingSkeleton";
+import { cn } from "@/lib/utils";
 
 const EmployeeListPage = () => {
   const [data, setData] = useState<Employee[]>([]);
@@ -51,7 +52,7 @@ const EmployeeListPage = () => {
             className="flex items-center px-3 py-2.5 bg-neutral-100 rounded-2xl border border-neutral-200"
           >
             <div className="mr-5">
-              <ActionsMenu modal={false} />
+              <ActionsMenu />
             </div>
 
             <span
@@ -64,7 +65,13 @@ const EmployeeListPage = () => {
               {employee.isActive ? "Active" : "Inactive"}
             </span>
 
-            <div className="grid grid-cols-6 items-center gap-5 text-sm w-full *:flex *:flex-col">
+            <div
+              className={cn(
+                "grid grid-cols-6 items-center gap-5 w-full",
+                "text-sm",
+                "*:flex *:flex-col"
+              )}
+            >
               <div className="h-16 w-16 bg-neutral-400 rounded-md shrink-0 justify-self-center" />
 
               <div>
