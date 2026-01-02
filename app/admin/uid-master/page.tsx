@@ -1,5 +1,7 @@
 "use client";
 
+import Header from "@/components/Header";
+import { TableLoadingSkeleton } from "@/components/LoadingSkeleton";
 import { Pencil, Trash } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
@@ -33,15 +35,15 @@ const UIDMaster = () => {
   }, []);
 
   return (
-    <section className="">
-      <div className="py-2.5 text-lg font-light">UID Master</div>
+    <section className="space-y-5">
+      <Header text="UID Master" />
 
-      {loading && <div>loading...</div>}
+      {loading && <TableLoadingSkeleton />}
 
       {!loading && data.length === 0 && <div>no attendance record</div>}
 
       {!loading && data && (
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-3">
           {data.map((item: UID, index: number) => (
             <div
               key={index}

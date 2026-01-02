@@ -2,7 +2,7 @@
 
 import {
   BookCheck,
-  Calendar,
+  // Calendar,
   Home,
   Search,
   // Settings,
@@ -21,7 +21,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 // Menu items.
 const items = [
@@ -41,11 +41,6 @@ const items = [
     icon: BookCheck,
   },
   {
-    title: "Calendar",
-    url: "/admin/calendar",
-    icon: Calendar,
-  },
-  {
     title: "UID Master",
     url: "/admin/uid-master",
     icon: Search,
@@ -54,7 +49,7 @@ const items = [
 
 export default function AppSidebar() {
   const { toggleSidebar, isMobile } = useSidebar();
-  const [isActiveMenu, setIsActiveMenu] = useState(0);
+  const pathname = usePathname();
 
   const handleMobileToggle = () => {
     if (isMobile) {
@@ -64,19 +59,21 @@ export default function AppSidebar() {
 
   return (
     <Sidebar variant="floating">
-      <SidebarHeader className="pl-3 pt-3 border-b">
-        Welcome, Admin
+      <SidebarHeader className="pl-3 pt-3 border-b font-semibold">
+        <div className="flex items-center gap-3 text-wrap">
+          <div className="min-h-20 min-w-20 max-w-20 max-h-20 rounded-md bg-[#008B93]" />
+          <span>MMS Attendance System</span>
+        </div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item, index) => (
+              {items.map((item) => (
                 <SidebarMenuItem key={item.title} onClick={handleMobileToggle}>
                   <SidebarMenuButton
                     asChild
-                    isActive={index === isActiveMenu}
-                    onClick={() => setIsActiveMenu(index)}
+                    isActive={item.url === pathname}
                     size="lg"
                   >
                     <Link href={item.url}>
