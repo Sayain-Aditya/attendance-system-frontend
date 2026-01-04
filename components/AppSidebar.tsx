@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 // Menu items.
 const items = [
@@ -61,7 +62,7 @@ export default function AppSidebar() {
     <Sidebar variant="floating">
       <SidebarHeader className="pl-3 pt-3 border-b font-semibold">
         <div className="flex items-center gap-3 text-wrap">
-          <div className="min-h-20 min-w-20 max-w-20 max-h-20 rounded-md bg-[#008B93]" />
+          <Image src="/images/logo.png" alt="logo" height={80} width={80} />
           <span>MMS Attendance System</span>
         </div>
       </SidebarHeader>

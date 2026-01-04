@@ -22,7 +22,7 @@ type Employee = {
   address: string;
   profileImage: string;
   isActive: boolean;
-  mobileNumber: number;
+  phoneNumber: number;
 };
 
 type UID = {

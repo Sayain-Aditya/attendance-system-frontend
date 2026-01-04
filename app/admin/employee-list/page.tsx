@@ -2,9 +2,10 @@
 
 import ActionsMenu from "@/components/ActionsMenu";
 import Header from "@/components/Header";
+import { NewEmployee } from "@/components/modals/EmployeeForms";
+import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { AttendanceLoadingSkeleton } from "../../../components/LoadingSkeleton";
-import { cn } from "@/lib/utils";
 
 const EmployeeListPage = () => {
   const [data, setData] = useState<Employee[]>([]);
@@ -46,17 +47,17 @@ const EmployeeListPage = () => {
       {!loading && data.length === 0 && <div>no employee record found</div>}
 
       <div className="flex flex-col gap-2.5">
+        {!loading && <NewEmployee position="self-end" />}
+
         {data.map((employee: Employee) => (
           <div
             key={employee.uid}
-            className="flex items-center px-3 py-2.5 bg-neutral-100 rounded-2xl border border-neutral-200"
+            className="flex items-center gap-5 px-3 py-2.5 bg-neutral-100 rounded-2xl border border-neutral-200"
           >
-            <div className="mr-5">
-              <ActionsMenu />
-            </div>
+            <ActionsMenu />
 
             <span
-              className={`text-sm px-3 py-1 rounded-full font-semibold w-fit h-fit ${
+              className={`text-xs px-3 py-1 rounded-full font-semibold w-fit h-fit ${
                 employee.isActive
                   ? "bg-green-200 text-green-600"
                   : "bg-red-200 text-red-500"
@@ -65,6 +66,8 @@ const EmployeeListPage = () => {
               {employee.isActive ? "Active" : "Inactive"}
             </span>
 
+            <div className="h-16 w-16 bg-neutral-400 rounded-md shrink-0 justify-self-center" />
+
             <div
               className={cn(
                 "grid grid-cols-6 items-center gap-5 w-full",
@@ -72,8 +75,6 @@ const EmployeeListPage = () => {
                 "*:flex *:flex-col"
               )}
             >
-              <div className="h-16 w-16 bg-neutral-400 rounded-md shrink-0 justify-self-center" />
-
               <div>
                 <b>Employee Name</b>
                 <span>{employee.name}</span>
@@ -104,6 +105,17 @@ const EmployeeListPage = () => {
                   }`}
                 >
                   {employee.address ?? "No address provided"}
+                </span>
+              </div>
+
+              <div>
+                <b>Phone Number</b>
+                <span
+                  className={`line-clamp-1 ${
+                    !employee.phoneNumber && "text-red-500"
+                  }`}
+                >
+                  {employee.phoneNumber ?? "NA"}
                 </span>
               </div>
             </div>
