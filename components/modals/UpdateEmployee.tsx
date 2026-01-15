@@ -1,26 +1,5 @@
 "use client";
-import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as React from "react";
-import { Controller, useForm } from "react-hook-form";
-import { toast } from "sonner";
-import * as z from "zod";
-import { cn } from "@/lib/utils";
-import { employeeFormSchema } from "@/lib/formSchema";
-import { Plus } from "lucide-react";
-import { Button } from "../ui/button";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroupTextarea,
-} from "@/components/ui/input-group";
-import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -28,8 +7,29 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+  InputGroupTextarea,
+} from "@/components/ui/input-group";
+import { employeeFormSchema } from "@/lib/formSchema";
+import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Pencil } from "lucide-react";
+import * as React from "react";
+import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import * as z from "zod";
 
-const NewEmployee = ({
+const UpdateEmployee = ({
   position,
 }: {
   position?: "self-end" | "justify-self-end";
@@ -38,7 +38,7 @@ const NewEmployee = ({
     resolver: zodResolver(employeeFormSchema),
     defaultValues: {
       name: "",
-      UID: "",
+      uid: "",
       role: "Employee",
       address: "",
       phoneNumber: undefined,
@@ -65,11 +65,9 @@ const NewEmployee = ({
   return (
     <div className={cn(position)}>
       <Dialog>
-        <DialogTrigger asChild>
-          <Button variant="default" className="w-fit self-end">
-            <Plus />
-            New Employee
-          </Button>
+        <DialogTrigger className="text-sm flex items-center gap-2 px-2 py-1.5 hover:bg-primary-1/20 w-full rounded-sm">
+          <Pencil size={16} />
+          Update
         </DialogTrigger>
 
         <DialogContent>
@@ -77,7 +75,10 @@ const NewEmployee = ({
             <DialogTitle>Add New Employee</DialogTitle>
           </DialogHeader>
 
-          <form id="form-rhf-demo" onSubmit={form.handleSubmit(onSubmit)}>
+          <form
+            id="update-employee-form"
+            onSubmit={form.handleSubmit(onSubmit)}
+          >
             <FieldGroup className="gap-4">
               <Controller
                 name="name"
@@ -101,14 +102,15 @@ const NewEmployee = ({
 
               <Field orientation="horizontal">
                 <Controller
-                  name="UID"
+                  name="uid"
+                  disabled
                   control={form.control}
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor="form-employee-UID">UID</FieldLabel>
+                      <FieldLabel htmlFor="form-employee-uid">UID</FieldLabel>
                       <Input
                         {...field}
-                        id="form-employee-UID"
+                        id="form-employee-uid"
                         aria-invalid={fieldState.invalid}
                         placeholder="Select UID"
                         autoComplete="off"
@@ -202,7 +204,10 @@ const NewEmployee = ({
             >
               Reset
             </Button>
-            <Button type="submit" form="form-rhf-demo">
+            <Button
+              type="submit"
+              form="form-rhf-demo"
+            >
               Submit
             </Button>
           </Field>
@@ -212,4 +217,4 @@ const NewEmployee = ({
   );
 };
 
-export { NewEmployee };
+export default UpdateEmployee;

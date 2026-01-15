@@ -2,6 +2,7 @@
 
 import {
   BookCheck,
+  ClipboardClock,
   // Calendar,
   Home,
   Search,
@@ -20,9 +21,9 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
 
 // Menu items.
 const items = [
@@ -45,6 +46,21 @@ const items = [
     title: "UID Master",
     url: "/admin/uid-master",
     icon: Search,
+  },
+  {
+    title: "Leave Applications",
+    url: "/admin/leave-applications",
+    icon: ClipboardClock,
+  },
+  {
+    title: "Complaints",
+    url: "/admin/complaints",
+    icon: ClipboardClock,
+  },
+  {
+    title: "Notice Board",
+    url: "/admin/notice-board",
+    icon: ClipboardClock,
   },
 ];
 

@@ -26,10 +26,10 @@ type Employee = {
 };
 
 type UID = {
+  _id: string;
   uid: string;
-  isUsed: boolean;
+  status: string;
   employeeName: string;
-  employeeUID: string;
   employeeId: string;
 };
 
@@ -74,4 +74,42 @@ type DashboardTypes = {
     newLeaves: number;
     newComplaints: number;
   };
+};
+
+type Leave = {
+  _id: string;
+  user: {
+    name: string;
+    uid: string;
+  };
+  startDate: string;
+  endDate: string;
+  reason: string;
+  status: string;
+};
+
+type Complaint = {
+  _id: string;
+  user: {
+    _id: string;
+    name: string;
+    uid: string;
+  };
+  subject: string;
+  description: string;
+  status: string;
+  createdAt: Date;
+};
+
+type Notice = {
+  _id: string;
+  title: string;
+  content: string;
+  priority: "HIGH" | "MEDIUM" | "LOW";
+  isActive: boolean;
+  createdBy: {
+    _id: string;
+    name: string;
+  };
+  createdAt: Date;
 };

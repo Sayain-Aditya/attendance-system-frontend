@@ -2,7 +2,7 @@
 
 import ActionsMenu from "@/components/ActionsMenu";
 import Header from "@/components/Header";
-import { NewEmployee } from "@/components/modals/EmployeeForms";
+import NewEmployee from "@/components/modals/NewEmployee";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { AttendanceLoadingSkeleton } from "../../../components/LoadingSkeleton";
