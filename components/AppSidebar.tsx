@@ -62,6 +62,11 @@ const items = [
     url: "/admin/notice-board",
     icon: ClipboardClock,
   },
+  {
+    title: "Employee Notice Board",
+    url: "/employee/notice-board",
+    icon: ClipboardClock,
+  },
 ];
 
 export default function AppSidebar() {
