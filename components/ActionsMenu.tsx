@@ -6,19 +6,21 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Calendar, EllipsisVertical } from "lucide-react";
+import { Dispatch, SetStateAction } from "react";
+import { toast } from "sonner";
 import DeleteConfirmation from "./modals/DeleteConfirmation";
 import UpdateEmployee from "./modals/UpdateEmployee";
-import { toast } from "sonner";
-import { useFetchEmployees } from "@/hooks/useFetchEmployees";
 
 const ActionsMenu = ({
   modal,
   employee,
+  setLoading,
 }: {
   modal?: boolean;
   employee: Employee;
+  setLoading: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const { setLoading } = useFetchEmployees();
+  // const { setLoading } = useFetchEmployees();
 
   const handleDelete = async (userId: string) => {
     setLoading(true);
@@ -32,7 +34,7 @@ const ActionsMenu = ({
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ userId }),
-        }
+        },
       );
 
       if (!response.ok) {

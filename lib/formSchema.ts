@@ -33,6 +33,27 @@ export const employeeFormSchema = z.object({
     .max(10, "Phone Number must be 10 digits"),
 });
 
+export const adminFormSchema = z.object({
+  name: z
+    .string({
+      error: "Expected alphabets only",
+    })
+    .min(1, "Name must not be empty.")
+    .max(32, "Name must be at most 32 characters."),
+  email: z.email({
+    error: "Please enter correct email.",
+  }),
+  password: z.string({
+    error: "invalid",
+  }),
+  phoneNumber: z
+    .string({
+      error: "Expected digits only",
+    })
+    .min(10, "Phone Number must be 10 digits")
+    .max(10, "Phone Number must be 10 digits"),
+});
+
 export const UIDSchema = z.object({
   uid: z
     .string({
