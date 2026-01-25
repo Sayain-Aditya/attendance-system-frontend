@@ -52,7 +52,10 @@ const AttendanceListPage = () => {
       <DropdownMenu>
         <DropdownMenuTrigger className="mb-2.5 px-2.5 py-1.5 font-light flex items-center gap-1 bg-neutral-100 w-fit rounded-md border border-neutral-200 capitalize">
           <span className="text-sm">{filter} attendance</span>
-          <ChevronDown size={16} strokeWidth={1.5} />
+          <ChevronDown
+            size={16}
+            strokeWidth={1.5}
+          />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
           <DropdownMenuItem onSelect={() => setFilter("today")}>
@@ -103,7 +106,7 @@ const AttendanceListPage = () => {
             >
               <li className="grid">
                 <span className="leading-none font-medium">
-                  {item.user.name}
+                  {item.user?.name}
                 </span>
                 <span
                   className={`text-[11px] font-light ${

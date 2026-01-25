@@ -1,26 +1,26 @@
 import Dashboard from "@/components/Dashboard";
 import Header from "@/components/Header";
 
-export default async function Home() {
-  const fetchData = async () => {
-    try {
-      const response = await fetch(
-        "https://rfidattendance-mu.vercel.app/api/dashboard/admin",
-        { next: { revalidate: 60 } }
-      );
+const fetchData = async () => {
+  try {
+    const response = await fetch(
+      "https://rfidattendance-mu.vercel.app/api/dashboard/admin",
+      { next: { revalidate: 5 } },
+    );
 
-      if (!response.ok) {
-        throw new Error(`HTTP error: Status ${response.status}`);
-      }
-      const result = await response.json();
-      console.log(result.data);
-
-      return result.data;
-    } catch (err) {
-      console.log(err);
+    if (!response.ok) {
+      throw new Error(`HTTP error: Status ${response.status}`);
     }
-  };
+    const result = await response.json();
+    console.log(result.data);
 
+    return result.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export default async function Home() {
   const data = await fetchData();
 
   return (

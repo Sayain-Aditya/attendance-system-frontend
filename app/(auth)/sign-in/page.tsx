@@ -1,33 +1,42 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 
 const Login = () => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    employeeId: "",
+  });
+
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [loginAs, setLoginAs] = useState("employee");
+  const router = useRouter();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
+    console.log("formData", formData);
 
     try {
-      const response = await fetch("https://rfidattendance-mu.vercel.app/api/user/login", {
+      const response = await fetch("/api/auth/sign-in", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        }),
+        body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
+      if (!response.ok) {
+        throw new Error("Server Error");
+      }
 
-      if (data.success) {
-        console.log(data.user);
+      const data = await response.json();
+      console.log("data", data);
+
+      if (data.user.role === "Admin") {
+        router.push("/admin");
       } else {
-        console.error(data.message || "Invalid credentials");
+        router.push("/employee");
       }
     } catch (error) {
       console.log(error);
@@ -38,28 +47,49 @@ const Login = () => {
 
   return (
     <div className="flex items-center justify-center p-4 w-full">
-      <div className="bg-white rounded-lg shadow-xl p-8 w-full max-w-md">
-        <div className="text-center mb-8">
+      <div className="bg-white rounded-lg shadow-xl p-8 w-full max-w-md space-y-8">
+        <div className="text-center">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">RFID System</h1>
           <p className="text-gray-600">Sign in to your account</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Email
-            </label>
-            <input
-              type="email"
-              value={formData.email}
-              onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
-              }
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Enter your email"
-              required
-            />
-          </div>
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-6"
+        >
+          {loginAs === "admin" ? (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                value={formData.email}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+          ) : (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Employee ID
+              </label>
+              <input
+                type="text"
+                value={formData.employeeId}
+                onChange={(e) =>
+                  setFormData({ ...formData, employeeId: e.target.value })
+                }
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+          )}
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -77,12 +107,6 @@ const Login = () => {
             />
           </div>
 
-          {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
-              {error}
-            </div>
-          )}
-
           <button
             type="submit"
             disabled={loading}
@@ -91,6 +115,28 @@ const Login = () => {
             {loading ? "Signing in..." : "Sign In"}
           </button>
         </form>
+
+        {loginAs === "admin" ? (
+          <button
+            onClick={() => {
+              setFormData({ ...formData, email: "" });
+              setLoginAs("employee");
+            }}
+            className="underline"
+          >
+            Login As Employee
+          </button>
+        ) : (
+          <button
+            onClick={() => {
+              setFormData({ ...formData, employeeId: "" });
+              setLoginAs("admin");
+            }}
+            className="underline"
+          >
+            Login As Admin
+          </button>
+        )}
       </div>
     </div>
   );

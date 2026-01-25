@@ -82,7 +82,7 @@ const NewEmployee = ({
       role: "Employee",
       address: "",
       phoneNumber: "",
-      password: "abcd123",
+      password: "",
     },
   });
 
@@ -195,6 +195,28 @@ const NewEmployee = ({
                 )}
               />
 
+              <Controller
+                name="password"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor="form-employee-password">
+                      Password
+                    </FieldLabel>
+                    <Input
+                      {...field}
+                      id="form-employee-password"
+                      aria-invalid={fieldState.invalid}
+                      placeholder="Enter Password"
+                      autoComplete="off"
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+
               <Field orientation="horizontal">
                 <Controller
                   name="uid"
@@ -240,6 +262,9 @@ const NewEmployee = ({
                       </FieldLabel>
                       <Input
                         {...field}
+                        type="text"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
                         id="form-employee-phoneNumber"
                         aria-invalid={fieldState.invalid}
                         placeholder="Enter Phone Number"

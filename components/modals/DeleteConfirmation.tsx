@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Trash } from "lucide-react";
+import { LogOutIcon, Trash } from "lucide-react";
 
 type DeleteConfirmationProps = {
   pendingFunction: () => void;
@@ -20,9 +20,11 @@ type DeleteConfirmationProps = {
     | "secondary"
     | "link"
     | "outline";
+  btnTitle?: string;
   title?: string;
   message?: string;
   customClassName?: string | undefined;
+  logoutIcon?: boolean;
 };
 
 const DeleteConfirmation = ({
@@ -31,6 +33,8 @@ const DeleteConfirmation = ({
   title = "Remove Employee",
   message = "Are you sure you want to remove?",
   customClassName,
+  logoutIcon,
+  btnTitle = "Remove",
 }: DeleteConfirmationProps) => {
   return (
     <>
@@ -41,8 +45,8 @@ const DeleteConfirmation = ({
             variant={variant}
             className={customClassName}
           >
-            <Trash size={16} />
-            Remove
+            {logoutIcon ? <LogOutIcon size={16} /> : <Trash size={16} />}
+            {btnTitle}
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-md">

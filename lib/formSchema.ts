@@ -13,14 +13,18 @@ export const employeeFormSchema = z.object({
   email: z.email({
     error: "Please enter correct email.",
   }),
-  role: z.enum(["Manager", "Employee", "Admin"], { error: "invalid role" }),
+  role: z.string({
+    error: "Invalid Role",
+  }),
   address: z
     .string({
       error: "invalid",
     })
     .min(10, "Address must be at least 10 characters.")
     .max(100, "Address must be at most 100 characters."),
-  password: z.string(),
+  password: z.string({
+    error: "invalid",
+  }),
   phoneNumber: z
     .string({
       error: "Expected digits only",
@@ -36,4 +40,16 @@ export const UIDSchema = z.object({
     })
     .min(1, "UID not be empty.")
     .max(32, "UID must be at most 32 characters."),
+});
+
+export const loginSchema = z.object({
+  email: z.email({
+    error: "Please enter correct email.",
+  }),
+  employeeId: z.string({
+    error: "Invalid Id",
+  }),
+  password: z.string({
+    error: "Invalid Password",
+  }),
 });

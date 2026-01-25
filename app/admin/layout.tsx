@@ -1,4 +1,4 @@
-import AppSidebar from "@/components/AppSidebar";
+import AdminSidebar from "@/components/AdminSidebar";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export default function RootLayout({
@@ -9,7 +9,7 @@ export default function RootLayout({
   return (
     <>
       <aside>
-        <AppSidebar />
+        <AdminSidebar />
       </aside>
       <main className="max-md:p-3 lg:py-2 lg:mx-4 lg:pr-2 w-full">
         <SidebarTrigger className="lg:hidden" />

@@ -1,18 +1,11 @@
 "use client";
 
-import {
-  BookCheck,
-  ClipboardClock,
-  // Calendar,
-  Home,
-  Search,
-  // Settings,
-  User,
-} from "lucide-react";
+import { BookCheck, ClipboardClock, Home, LogOutIcon } from "lucide-react";
 
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarHeader,
@@ -23,55 +16,38 @@ import {
 } from "@/components/ui/sidebar";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { Button } from "./ui/button";
+import DeleteConfirmation from "./modals/DeleteConfirmation";
 
 // Menu items.
 const items = [
   {
-    title: "Admin Dashboard",
-    url: "/admin",
+    title: "Dashboard",
+    url: "/employee",
     icon: Home,
   },
   {
-    title: "Employee List",
-    url: "/admin/employee-list",
-    icon: User,
-  },
-  {
-    title: "Attendance List",
-    url: "/admin/attendance-list",
-    icon: BookCheck,
-  },
-  {
-    title: "UID Master",
-    url: "/admin/uid-master",
-    icon: Search,
-  },
-  {
     title: "Leave Applications",
-    url: "/admin/leave-applications",
+    url: "/employee/leave-applications",
     icon: ClipboardClock,
   },
   {
     title: "Complaints",
-    url: "/admin/complaints",
-    icon: ClipboardClock,
+    url: "/employee/complaints",
+    icon: BookCheck,
   },
   {
     title: "Notice Board",
-    url: "/admin/notice-board",
-    icon: ClipboardClock,
-  },
-  {
-    title: "Employee Notice Board",
     url: "/employee/notice-board",
     icon: ClipboardClock,
   },
 ];
 
-export default function AppSidebar() {
+export default function EmployeeSidebar() {
   const { toggleSidebar, isMobile } = useSidebar();
   const pathname = usePathname();
+  const router = useRouter();
 
   const handleMobileToggle = () => {
     if (isMobile) {
@@ -79,11 +55,29 @@ export default function AppSidebar() {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      const res = await fetch("/api/auth/logout");
+      if (!res.ok) {
+        throw new Error("failed to logout");
+      }
+
+      router.push("/sign-in");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Sidebar variant="floating">
       <SidebarHeader className="pl-3 pt-3 border-b font-semibold">
         <div className="flex items-center gap-3 text-wrap">
-          <Image src="/images/logo.png" alt="logo" height={80} width={80} />
+          <Image
+            src="/images/logo.png"
+            alt="logo"
+            height={80}
+            width={80}
+          />
           <span>MMS Attendance System</span>
         </div>
       </SidebarHeader>
@@ -92,7 +86,10 @@ export default function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
-                <SidebarMenuItem key={item.title} onClick={handleMobileToggle}>
+                <SidebarMenuItem
+                  key={item.title}
+                  onClick={handleMobileToggle}
+                >
                   <SidebarMenuButton
                     asChild
                     isActive={item.url === pathname}
@@ -109,6 +106,16 @@ export default function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <DeleteConfirmation
+          pendingFunction={() => handleLogout()}
+          variant="destructive"
+          btnTitle="Logout"
+          logoutIcon
+          title="Are you sure you want to logout?"
+          message=""
+        />
+      </SidebarFooter>
     </Sidebar>
   );
 }

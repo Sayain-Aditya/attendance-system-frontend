@@ -74,6 +74,7 @@ type DashboardTypes = {
     newLeaves: number;
     newComplaints: number;
   };
+  notices: Array<Notice>;
 };
 
 type Leave = {
@@ -112,4 +113,12 @@ type Notice = {
     name: string;
   };
   createdAt: Date;
+};
+
+type User = {
+  _id: string;
+  uid: string | undefined;
+  name: string;
+  role: string;
+  email: string | undefined;
 };

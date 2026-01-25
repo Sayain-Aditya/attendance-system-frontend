@@ -7,7 +7,7 @@ const Header = ({ text }: { text?: string }) => {
   const { date, time } = useDateTime();
 
   return (
-    <div className="flex items-end justify-between w-full border p-5 pt-7 rounded-xl sticky top-2 bg-[#008B93] text-white">
+    <div className="flex items-end justify-between w-full border p-5 pt-7 rounded-xl sticky top-2 bg-[#008B93] text-white z-50">
       <div>
         <h1 className="font-bold text-3xl leading-none">
           {text ?? "Welcome, Admin"}
