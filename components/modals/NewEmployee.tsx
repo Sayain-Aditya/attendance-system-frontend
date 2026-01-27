@@ -36,19 +36,24 @@ import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
 import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 const NewEmployee = ({
   position,
+  fetchEmployees,
 }: {
   position?: "self-end" | "justify-self-end";
+  fetchEmployees: () => void;
 }) => {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
   const [nextEmployee, setNextEmployee] = useState<string>("");
   const [availableUID, setAvailableUID] = useState<Array<UID>>([]);
 
   const fetchNextEmployeeId = async () => {
     try {
       const response = await fetch(
-        "https://rfidattendance-mu.vercel.app/api/user/next-employee-id"
+        "https://rfidattendance-mu.vercel.app/api/user/next-employee-id",
       );
       const data = await response.json();
       if (data.success) {
@@ -62,7 +67,7 @@ const NewEmployee = ({
   const fetchAvailableUID = async () => {
     try {
       const response = await fetch(
-        "https://rfidattendance-mu.vercel.app/api/uid-master/view/available"
+        "https://rfidattendance-mu.vercel.app/api/uid-master/view/available",
       );
       const data = await response.json();
       if (data.success) {
@@ -97,7 +102,7 @@ const NewEmployee = ({
             "Content-Type": "application/json",
           },
           body: JSON.stringify(data),
-        }
+        },
       );
 
       if (!response.ok) {
@@ -116,6 +121,9 @@ const NewEmployee = ({
         ),
         position: "top-right",
       });
+
+      router.refresh();
+      fetchEmployees();
     } catch (error) {
       console.error("Error fetching next employee ID:", error);
     }
@@ -124,8 +132,10 @@ const NewEmployee = ({
   return (
     <div className={cn(position)}>
       <Dialog
-        onOpenChange={(open) => {
-          if (open) {
+        open={open}
+        onOpenChange={(state) => {
+          setOpen(state);
+          if (state) {
             fetchNextEmployeeId();
             fetchAvailableUID();
           } else {

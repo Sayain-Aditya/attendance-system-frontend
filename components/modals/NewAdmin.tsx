@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Dialog,
   DialogContent,
@@ -21,12 +22,19 @@ import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
 import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const NewAdmin = ({
   position,
+  fetchEmployees,
 }: {
   position?: "self-end" | "justify-self-end";
+  fetchEmployees: () => void;
 }) => {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+
   const form = useForm<z.infer<typeof adminFormSchema>>({
     resolver: zodResolver(adminFormSchema),
     defaultValues: {
@@ -67,6 +75,9 @@ const NewAdmin = ({
         ),
         position: "top-right",
       });
+
+      fetchEmployees();
+      router.refresh();
     } catch (error) {
       console.error("Error fetching next employee ID:", error);
     }
@@ -74,7 +85,10 @@ const NewAdmin = ({
 
   return (
     <div className={cn(position)}>
-      <Dialog>
+      <Dialog
+        open={open}
+        onOpenChange={setOpen}
+      >
         <DialogTrigger asChild>
           <Button
             variant="default"

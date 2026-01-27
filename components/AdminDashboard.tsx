@@ -1,7 +1,7 @@
 import React from "react";
 import { Check, Clock, User, X } from "lucide-react";
 
-const Dashboard = async () => {
+const AdminDashboard = async () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
@@ -179,4 +179,4 @@ const Dashboard = async () => {
   );
 };
 
-export default Dashboard;
+export default AdminDashboard;

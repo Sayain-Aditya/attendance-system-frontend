@@ -10,17 +10,20 @@ import { Dispatch, SetStateAction } from "react";
 import { toast } from "sonner";
 import DeleteConfirmation from "./modals/DeleteConfirmation";
 import UpdateEmployee from "./modals/UpdateEmployee";
+import { useRouter } from "next/navigation";
 
 const ActionsMenu = ({
   modal,
   employee,
   setLoading,
+  fetchEmployees,
 }: {
   modal?: boolean;
   employee: Employee;
   setLoading: Dispatch<SetStateAction<boolean>>;
+  fetchEmployees: () => void;
 }) => {
-  // const { setLoading } = useFetchEmployees();
+  const router = useRouter();
 
   const handleDelete = async (userId: string) => {
     setLoading(true);
@@ -52,6 +55,9 @@ const ActionsMenu = ({
         ),
         position: "top-right",
       });
+
+      fetchEmployees();
+      router.refresh();
     } catch (error) {
       console.error("Error fetching next employee ID:", error);
     } finally {

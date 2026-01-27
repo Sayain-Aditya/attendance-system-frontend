@@ -1,4 +1,4 @@
-import Dashboard from "@/components/Dashboard";
+import AdminDashboard from "@/components/AdminDashboard";
 import Header from "@/components/Header";
 import { DashboardLoadingSkeleton } from "@/components/LoadingSkeleton";
 import { Suspense } from "react";
@@ -9,7 +9,7 @@ export default async function Home() {
       <Header />
 
       <Suspense fallback={<DashboardLoadingSkeleton />}>
-        <Dashboard />
+        <AdminDashboard />
       </Suspense>
     </section>
   );
