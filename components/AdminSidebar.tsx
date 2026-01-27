@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  BookCheck,
-  ClipboardClock,
-  Home,
-  LogOutIcon,
-  Search,
-  User,
-} from "lucide-react";
+import { BookCheck, ClipboardClock, Home, Search, User } from "lucide-react";
 
 import {
   Sidebar,
@@ -23,8 +16,8 @@ import {
 } from "@/components/ui/sidebar";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Button } from "./ui/button";
+import { usePathname, useRouter } from "next/navigation";
+import DeleteConfirmation from "./modals/DeleteConfirmation";
 
 // Menu items.
 const items = [
@@ -68,10 +61,24 @@ const items = [
 export default function AdminSidebar() {
   const { toggleSidebar, isMobile } = useSidebar();
   const pathname = usePathname();
+  const router = useRouter();
 
   const handleMobileToggle = () => {
     if (isMobile) {
       toggleSidebar();
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      const res = await fetch("/api/auth/logout");
+      if (!res.ok) {
+        throw new Error("failed to logout");
+      }
+
+      router.push("/sign-in");
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -114,10 +121,14 @@ export default function AdminSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <Button variant="destructive">
-          <LogOutIcon />
-          logout
-        </Button>
+        <DeleteConfirmation
+          pendingFunction={() => handleLogout()}
+          variant="destructive"
+          btnTitle="Logout"
+          logoutIcon
+          title="Are you sure you want to logout?"
+          message=""
+        />
       </SidebarFooter>
     </Sidebar>
   );

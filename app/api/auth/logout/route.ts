@@ -6,6 +6,7 @@ export async function GET() {
 
   cookieStore.set("session", "", {
     httpOnly: true,
+    secure: true,
     // secure: process.env.NODE_ENV === "production",
     expires: new Date(0), // ← expire cookie immediately
     path: "/",
