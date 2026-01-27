@@ -31,14 +31,9 @@ export async function createSession(user: User) {
 
   cookieStore.set("session", session, {
     httpOnly: true,
-    // secure: true,
+    secure: true,
     expires: expiresAt,
     sameSite: "lax",
     path: "/",
   });
 }
-
-// export async function deleteSession() {
-//   const cookieStore = await cookies();
-//   cookieStore.delete("session");
-// }
