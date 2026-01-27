@@ -1,6 +1,6 @@
 "use client";
 
-import { BookCheck, ClipboardClock, Home, LogOutIcon } from "lucide-react";
+import { BookCheck, ClipboardClock, Home } from "lucide-react";
 
 import {
   Sidebar,
@@ -17,7 +17,6 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Button } from "./ui/button";
 import DeleteConfirmation from "./modals/DeleteConfirmation";
 
 // Menu items.
