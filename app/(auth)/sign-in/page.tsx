@@ -15,15 +15,20 @@ const Login = () => {
   const router = useRouter();
 
   const handleSubmit = async (e: FormEvent) => {
+    const payload =
+      loginAs === "admin"
+        ? { email: formData.email, password: formData.password }
+        : { employeeId: formData.employeeId, password: formData.password };
+
     e.preventDefault();
     setLoading(true);
-    console.log("formData", formData);
+    console.log("payload", payload);
 
     try {
       const response = await fetch("/api/auth/sign-in", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
