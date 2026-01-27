@@ -6,6 +6,11 @@ const AdminDashboard = async () => {
     try {
       const response = await fetch(
         "https://rfidattendance-mu.vercel.app/api/dashboard/admin",
+        {
+          next: {
+            revalidate: 10,
+          },
+        },
       );
 
       if (!response.ok) {
