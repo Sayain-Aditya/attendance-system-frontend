@@ -25,7 +25,7 @@ const AttendanceListPage = () => {
           `https://rfidattendance-mu.vercel.app/api/attendance/view/${filter}`,
           {
             cache: "no-store",
-          }
+          },
         );
 
         if (!response.ok) {
@@ -80,7 +80,7 @@ const AttendanceListPage = () => {
             className={cn(
               "grid grid-cols-7 items-end gap-10 w-full min-w-6xl",
               "border border-b-0 border-neutral-200",
-              "px-5 py-2.5 bg-neutral-100 rounded-t-lg uppercase text-xs"
+              "px-5 py-2.5 bg-neutral-100 rounded-t-lg uppercase text-xs",
             )}
           >
             <li className="grid">
@@ -101,7 +101,7 @@ const AttendanceListPage = () => {
               className={cn(
                 "grid grid-cols-7 items-center gap-10 w-full min-w-6xl px-5 py-3.5",
                 "border-s border-e border-t last:border-b last:rounded-b-lg",
-                "*:text-sm"
+                "*:text-sm",
               )}
             >
               <li className="grid">
@@ -110,30 +110,30 @@ const AttendanceListPage = () => {
                 </span>
                 <span
                   className={`text-[11px] font-light ${
-                    !item.user.employeeId && "text-red-500"
+                    !item.user?.employeeId && "text-red-500"
                   }`}
                 >
-                  {item.user.employeeId ?? "NA"}
+                  {item.user?.employeeId ?? "NA"}
                 </span>
               </li>
 
               <li className={`${!item.date && "text-red-500"}`}>
-                {item.user.uid ?? "NA"}
+                {item.user?.uid ?? "NA"}
               </li>
               <li className={`${!item.date && "text-red-500"}`}>
-                {item.date ?? "NA"}
+                {item?.date ?? "NA"}
               </li>
-              <li className={`${!item.user.role && "text-red-500"}`}>
-                {item.user.role ?? "NA"}
+              <li className={`${!item.user?.role && "text-red-500"}`}>
+                {item.user?.role ?? "NA"}
               </li>
               <li className={`${!item.checkIn && "text-red-500"}`}>
-                {item.checkIn ?? "NA"}
+                {item?.checkIn ?? "NA"}
               </li>
               <li className={`${!item.checkOut && "text-red-500"}`}>
-                {item.checkOut ?? "NA"}
+                {item?.checkOut ?? "NA"}
               </li>
               <li className={`${!item.scanStatus && "text-red-500"}`}>
-                {item.scanStatus ?? "NA"}
+                {item?.scanStatus ?? "NA"}
               </li>
             </ul>
           ))}
