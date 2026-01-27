@@ -44,7 +44,6 @@ const UpdateEmployee = ({
       role: employee.role,
       address: employee.address,
       phoneNumber: employee.phoneNumber?.toString() ?? "",
-      password: employee.password,
     },
   });
 
@@ -59,7 +58,7 @@ const UpdateEmployee = ({
             "Content-Type": "application/json",
           },
           body: JSON.stringify(data),
-        }
+        },
       );
 
       if (!response.ok) {
