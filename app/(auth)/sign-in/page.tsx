@@ -54,8 +54,10 @@ const Login = () => {
     <div className="flex items-center justify-center p-4 w-full">
       <div className="bg-white rounded-lg shadow-xl p-8 w-full max-w-md space-y-8">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">RFID System</h1>
-          <p className="text-gray-600">Sign in to your account</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            MMS Attendance System
+          </h1>
+          <p className="text-gray-600 capitalize">Sign in to {loginAs} account</p>
         </div>
 
         <form
@@ -90,7 +92,7 @@ const Login = () => {
                   setFormData({ ...formData, employeeId: e.target.value })
                 }
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter your email"
+                placeholder="Enter your Employee Id"
                 required
               />
             </div>
@@ -127,7 +129,7 @@ const Login = () => {
               setFormData({ ...formData, email: "" });
               setLoginAs("employee");
             }}
-            className="underline"
+            className="hover:font-medium hover:underline underline-offset-2 decoration-1 transition-all"
           >
             Login As Employee
           </button>
@@ -137,7 +139,7 @@ const Login = () => {
               setFormData({ ...formData, employeeId: "" });
               setLoginAs("admin");
             }}
-            className="underline"
+            className="hover:font-medium hover:underline underline-offset-2 decoration-1 transition-all"
           >
             Login As Admin
           </button>

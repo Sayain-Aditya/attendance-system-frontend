@@ -22,7 +22,7 @@ import DeleteConfirmation from "./modals/DeleteConfirmation";
 // Menu items.
 const items = [
   {
-    title: "Dashboard",
+    title: "Home",
     url: "/employee",
     icon: Home,
   },

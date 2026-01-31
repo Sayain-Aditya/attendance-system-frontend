@@ -1,5 +1,6 @@
 "use client";
 
+import EmptyRecord from "@/components/EmptyRecord";
 import Header from "@/components/Header";
 import { TableLoadingSkeleton } from "@/components/LoadingSkeleton";
 import { Button } from "@/components/ui/button";
@@ -14,7 +15,7 @@ const LeaveApplications = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://rfidattendance-mu.vercel.app/api/leave/get"
+        "https://rfidattendance-mu.vercel.app/api/leave/get",
       );
 
       if (!response.ok) {
@@ -42,7 +43,7 @@ const LeaveApplications = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ status }),
-        }
+        },
       );
 
       if (!response.ok) {
@@ -75,7 +76,9 @@ const LeaveApplications = () => {
 
       {loading && <TableLoadingSkeleton />}
 
-      {!loading && data.length === 0 && <div>no attendance record</div>}
+      {!loading && data.length === 0 && (
+        <EmptyRecord message="No Pending Applications" />
+      )}
 
       {!loading && data && (
         <div className="flex flex-col gap-2.5">
@@ -93,8 +96,8 @@ const LeaveApplications = () => {
                       item.status === "PENDING"
                         ? "bg-amber-200 text-amber-500"
                         : item.status === "APPROVED"
-                        ? "bg-green-200 text-green-600"
-                        : "bg-red-200 text-red-500"
+                          ? "bg-green-200 text-green-600"
+                          : "bg-red-200 text-red-500"
                     }`}
                   >
                     {item.status ?? "NA"}

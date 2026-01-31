@@ -12,9 +12,7 @@ const Header = ({ text }: { text?: string }) => {
         <h1 className="font-bold text-xl lg:text-3xl leading-none">
           {text ?? "Welcome, Admin"}
         </h1>
-        <span className="font-medium max-lg:text-xs text-white/70">
-          {date}
-        </span>
+        <span className="font-medium max-lg:text-xs text-white/70">{date}</span>
       </div>
       <div className="grid text-right">
         <span className="uppercase lg:text-xl font-semibold leading-none">

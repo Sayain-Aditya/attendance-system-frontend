@@ -1,5 +1,6 @@
 "use client";
 
+import EmptyRecord from "@/components/EmptyRecord";
 import Header from "@/components/Header";
 import { TableLoadingSkeleton } from "@/components/LoadingSkeleton";
 import { Button } from "@/components/ui/button";
@@ -24,7 +25,7 @@ const NoticeBoard = () => {
   const fetchNoticeBoard = async () => {
     try {
       const response = await fetch(
-        "https://rfidattendance-mu.vercel.app/api/notice"
+        "https://rfidattendance-mu.vercel.app/api/notice",
       );
 
       if (!response.ok) {
@@ -46,88 +47,16 @@ const NoticeBoard = () => {
     fetchNoticeBoard();
   }, []);
 
-  const handleNewNotice = async () => {
-    console.log("newNotice", newNotice);
-
-    try {
-      const response = await fetch(
-        "https://rfidattendance-mu.vercel.app/api/notice/create",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newNotice),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      console.log("Success:", result);
-
-      toast("You submitted the following values:", {
-        description: (
-          <pre className="mt-2 w-[320px] overflow-x-auto rounded-md p-4 text-primary">
-            <code>{JSON.stringify(newNotice, null, 2)}</code>
-          </pre>
-        ),
-        position: "top-right",
-      });
-    } catch (error) {
-      console.error("Error uploading Notice:", error);
-    }
-  };
-
   return (
     <section className="space-y-5">
       <Header text="Notice Board" />
 
       {loading && <TableLoadingSkeleton />}
 
-      {!loading && data.length === 0 && <div>no attendance record</div>}
+      {!loading && data.length === 0 && <EmptyRecord message="No New Notice" />}
 
       {!loading && data && (
         <>
-          <div className="flex flex-col gap-4 border p-5 rounded-md">
-            <span className="font-semibold">Create New Notice</span>
-
-            <Field>
-              <Label htmlFor="new-complaint-title">Title</Label>
-              <Input
-                id="new-complaint-title"
-                type="text"
-                placeholder="Enter Notice Title"
-                className="font-semibold placeholder:font-normal placeholder:text-neutral-400"
-                onChange={(e) =>
-                  setNewNotice({ ...newNotice, title: e.target.value })
-                }
-              />
-            </Field>
-
-            <Field>
-              <Label htmlFor="new-complaint-content">Notice</Label>
-              <Textarea
-                id="new-complaint-content"
-                placeholder="Enter Notice Details"
-                className="placeholder:text-neutral-400"
-                onChange={(e) =>
-                  setNewNotice({ ...newNotice, content: e.target.value })
-                }
-              />
-            </Field>
-
-            <Button
-              className="w-fit"
-              variant="outline"
-              onClick={() => handleNewNotice()}
-            >
-              Submit
-            </Button>
-          </div>
-
           <div className="grid grid-cols-2 gap-2.5">
             {data.map((item: Notice, index: number) => (
               <div
