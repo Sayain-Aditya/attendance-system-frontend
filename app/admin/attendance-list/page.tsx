@@ -1,5 +1,6 @@
 "use client";
 
+import EmptyRecord from "@/components/EmptyRecord";
 import Header from "@/components/Header";
 import { TableLoadingSkeleton } from "@/components/LoadingSkeleton";
 import {
@@ -15,7 +16,7 @@ import { useEffect, useState } from "react";
 const AttendanceListPage = () => {
   const [data, setData] = useState<AttendanceList[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState("today");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,7 +73,9 @@ const AttendanceListPage = () => {
 
       {loading && <TableLoadingSkeleton />}
 
-      {!loading && data.length === 0 && <div>no attendance record</div>}
+      {!loading && data.length === 0 && (
+        <EmptyRecord message="No Attendance Found" />
+      )}
 
       {!loading && data.length !== 0 && (
         <div className="flex flex-col overflow-x-auto">

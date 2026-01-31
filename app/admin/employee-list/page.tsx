@@ -7,6 +7,7 @@ import NewEmployee from "@/components/modals/NewEmployee";
 import { useFetchEmployees } from "@/hooks/useFetchEmployees";
 import { cn } from "@/lib/utils";
 import { AttendanceLoadingSkeleton } from "../../../components/LoadingSkeleton";
+import EmptyRecord from "@/components/EmptyRecord";
 
 const EmployeeListPage = () => {
   const { loading, employees, setLoading, fetchEmployees } =
@@ -24,9 +25,7 @@ const EmployeeListPage = () => {
 
         {loading && <AttendanceLoadingSkeleton />}
 
-        {!loading && employees?.length === 0 && (
-          <div>no employee record found</div>
-        )}
+        {!loading && employees?.length === 0 && <EmptyRecord />}
 
         {!loading && (
           <div className="flex flex-col gap-3 overflow-auto">

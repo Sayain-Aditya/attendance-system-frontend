@@ -24,17 +24,26 @@ import { employeeFormSchema } from "@/lib/formSchema";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Pencil } from "lucide-react";
-import { Controller, useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { Controller, FieldValues, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
+
+type updateEmployeeType = Employee & {
+  password?: string;
+};
 
 const UpdateEmployee = ({
   employee,
   position,
+  fetchEmployees,
 }: {
-  employee: Employee;
+  employee: updateEmployeeType;
   position?: "self-end" | "justify-self-end";
+  fetchEmployees: () => void;
 }) => {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof employeeFormSchema>>({
     resolver: zodResolver(employeeFormSchema),
     defaultValues: {
@@ -44,11 +53,12 @@ const UpdateEmployee = ({
       role: employee.role,
       address: employee.address,
       phoneNumber: employee.phoneNumber?.toString() ?? "",
+      password: employee.password,
     },
   });
 
   const onSubmit = async (data: z.infer<typeof employeeFormSchema>) => {
-    console.log("formData", data);
+    // console.log("formData", data);
     try {
       const response = await fetch(
         `https://rfidattendance-mu.vercel.app/api/user/update/${employee._id}`,
@@ -65,21 +75,30 @@ const UpdateEmployee = ({
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      const result = await response.json();
-      console.log("Success:", result);
+      // const result = await response.json();
+      // console.log("Success:", result);
 
-      form.reset();
+      form.reset(data);
       toast("You submitted the following values:", {
         description: (
           <pre className="mt-2 w-[320px] overflow-x-auto rounded-md p-4 text-primary">
-            <code>{JSON.stringify(data, null, 2)}</code>
+            <code>
+              {JSON.stringify({ ...data, password: "******" }, null, 2)}
+            </code>
           </pre>
         ),
         position: "top-right",
       });
+
+      router.refresh();
+      fetchEmployees();
     } catch (error) {
       console.error("Error fetching next employee ID:", error);
     }
+  };
+
+  const onError = (errors: FieldValues) => {
+    console.log("FORM ERRORS →", errors);
   };
 
   return (
@@ -97,7 +116,7 @@ const UpdateEmployee = ({
 
           <form
             id="update-employee-form"
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={form.handleSubmit(onSubmit, onError)}
           >
             <FieldGroup className="gap-4">
               <Controller
@@ -113,6 +132,26 @@ const UpdateEmployee = ({
                       id="update-employee-form-name"
                       aria-invalid={fieldState.invalid}
                       placeholder="Enter Name"
+                      autoComplete="off"
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+
+              <Controller
+                name="email"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor="form-employee-email">Email</FieldLabel>
+                    <Input
+                      {...field}
+                      id="form-employee-email"
+                      aria-invalid={fieldState.invalid}
+                      placeholder="Enter Email Address"
                       autoComplete="off"
                     />
                     {fieldState.invalid && (

@@ -18,13 +18,15 @@ export const employeeFormSchema = z.object({
   }),
   address: z
     .string({
-      error: "invalid",
+      error: "Invalid Address",
     })
     .min(10, "Address must be at least 10 characters.")
     .max(100, "Address must be at most 100 characters."),
-  password: z.string({
-    error: "invalid",
-  }),
+  password: z
+    .string({
+      error: "Invalid Password",
+    })
+    .max(16, "Address must be at most 16 characters."),
   phoneNumber: z
     .string({
       error: "Expected digits only",

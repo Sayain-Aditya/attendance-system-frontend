@@ -1,5 +1,6 @@
 "use client";
 
+import EmptyRecord from "@/components/EmptyRecord";
 import Header from "@/components/Header";
 import { TableLoadingSkeleton } from "@/components/LoadingSkeleton";
 import { useEffect, useState } from "react";
@@ -11,7 +12,7 @@ const ComplaintsPage = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://rfidattendance-mu.vercel.app/api/complaint/get"
+        "https://rfidattendance-mu.vercel.app/api/complaint/get",
       );
 
       if (!response.ok) {
@@ -39,7 +40,9 @@ const ComplaintsPage = () => {
 
       {loading && <TableLoadingSkeleton />}
 
-      {!loading && data.length === 0 && <div>no attendance record</div>}
+      {!loading && data.length === 0 && (
+        <EmptyRecord message="No Complaints Found" />
+      )}
 
       {!loading && data && (
         <div className="grid grid-cols-2 gap-2.5">
@@ -62,8 +65,8 @@ const ComplaintsPage = () => {
                         item.status === "PENDING"
                           ? "bg-amber-200 text-amber-500"
                           : item.status === "APPROVED"
-                          ? "bg-green-200 text-green-600"
-                          : "bg-red-200 text-red-500"
+                            ? "bg-green-200 text-green-600"
+                            : "bg-red-200 text-red-500"
                       }`}
                     >
                       <span>{item.status ?? "NA"}</span>

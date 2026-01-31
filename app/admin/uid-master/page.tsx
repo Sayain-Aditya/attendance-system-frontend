@@ -1,5 +1,6 @@
 "use client";
 
+import EmptyRecord from "@/components/EmptyRecord";
 import Header from "@/components/Header";
 import { TableLoadingSkeleton } from "@/components/LoadingSkeleton";
 import DeleteConfirmation from "@/components/modals/DeleteConfirmation";
@@ -22,7 +23,7 @@ const UIDMaster = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(UIDs),
-        }
+        },
       );
 
       if (!response.ok) {
@@ -50,69 +51,71 @@ const UIDMaster = () => {
   };
 
   return (
-    <section className="space-y-5">
+    <section className="space-y-3">
       <Header text="UID Master" />
 
-      {loading && <TableLoadingSkeleton />}
+      <div className="max-h-[83dvh] overflow-hidden flex flex-col gap-2.5">
+        {loading && <TableLoadingSkeleton />}
 
-      {!loading && UIDs.length === 0 && <div>no attendance record</div>}
+        {!loading && UIDs.length === 0 && <EmptyRecord />}
 
-      {!loading && UIDs && (
-        <div className="flex flex-col gap-2.5">
-          {!loading && (
-            <NewUID
-              fetchUID={fetchAllUID}
-              position="self-end"
-            />
-          )}
+        {!loading && (
+          <NewUID
+            fetchUID={fetchAllUID}
+            position="self-end"
+          />
+        )}
 
-          {UIDs.map((item: UID, index: number) => (
-            <div
-              key={index}
-              className="w-full flex items-center justify-between px-3 py-2.5 bg-neutral-100 rounded-lg border border-neutral-200 gap-16"
-            >
-              <ul className="flex items-center justify-between gap-10 w-full *:basis-1/4 *:text-sm">
-                <li className="font-medium">{item.uid}</li>
+        {!loading && UIDs && (
+          <div className="flex flex-col gap-2.5 max-w-dvw overflow-auto">
+            {UIDs.map((item: UID, index: number) => (
+              <div
+                key={index}
+                className="w-full min-w-2xl flex lg:items-center lg:justify-between px-3 py-2.5 bg-neutral-100 rounded-lg border border-neutral-200 gap-6 lg:gap-16"
+              >
+                <ul className="flex items-center justify-between gap-6 lg:gap-10 w-full lg:*:basis-1/4 *:text-sm">
+                  <li className="font-medium">{item.uid}</li>
 
-                <li>
-                  <span
-                    className={`text-sm px-3 py-1 rounded-full font-semibold w-fit ${
-                      item.status === "Active"
-                        ? "bg-green-200 text-green-600"
-                        : "bg-red-200 text-red-500"
-                    }`}
-                  >
-                    {item.status}
-                  </span>
-                </li>
+                  <li>
+                    <span
+                      className={`text-sm px-3 py-1 rounded-full font-semibold w-fit ${
+                        item.status === "Active"
+                          ? "bg-green-200 text-green-600"
+                          : "bg-red-200 text-red-500"
+                      }`}
+                    >
+                      {item.status}
+                    </span>
+                  </li>
 
-                <li className={`${!item.employeeName && "text-red-500"}`}>
-                  {item.employeeName ?? "Unassigned"}
-                </li>
+                  <li className={`${!item.employeeName && "text-red-500"}`}>
+                    {item.employeeName ?? "Unassigned"}
+                  </li>
 
-                <li className={`${!item.employeeId && "text-red-500"}`}>
-                  {item.employeeId ?? "No Employee Id"}
-                </li>
-              </ul>
+                  <li className={`${!item.employeeId && "text-red-500"}`}>
+                    {item.employeeId ?? "No Employee Id"}
+                  </li>
+                </ul>
 
-              <div className="flex items-center gap-3">
-                <UpdateUID
-                  UID={item}
-                  loading={loading}
-                  setLoading={setLoading}
-                  fetchAllUID={fetchAllUID}
-                />
+                <div className="flex items-center gap-3">
+                  <UpdateUID
+                    UID={item}
+                    loading={loading}
+                    setLoading={setLoading}
+                    fetchAllUID={fetchAllUID}
+                  />
 
-                <DeleteConfirmation
-                  pendingFunction={() => DeleteUID(item._id)}
-                  variant="destructive"
-                  title="Remove UID"
-                />
+                  <DeleteConfirmation
+                    pendingFunction={() => DeleteUID(item._id)}
+                    variant="destructive"
+                    title="Remove UID"
+                  />
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      </div>
     </section>
   );
 };

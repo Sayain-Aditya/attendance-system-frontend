@@ -16,7 +16,7 @@ export const useFetchEmployees = () => {
 
       const result = await response.json();
       setEmployees(result.data);
-      console.log(result.data);
+      // console.log(result.data);
     } catch (err) {
       setEmployees([]);
       console.log(err);

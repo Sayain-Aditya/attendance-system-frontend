@@ -7,6 +7,11 @@ export async function middleware(request: NextRequest) {
   const session = await decrypt(cookie);
   console.log(session);
 
+  const homePage = request.nextUrl.pathname === "/";
+  if (homePage && !cookie) {
+    return NextResponse.redirect(new URL("/sign-in", request.url));
+  }
+
   const isAuthPage = request.nextUrl.pathname === "/sign-in";
 
   const isProtected =
@@ -15,7 +20,7 @@ export async function middleware(request: NextRequest) {
 
   // If trying to visit auth while logged in → redirect to dashboard
   if (cookie) {
-    if (isAuthPage) {
+    if (isAuthPage || homePage) {
       if (session?.role === "Employee") {
         return NextResponse.redirect(new URL("/employee", request.url));
       } else {

@@ -1,5 +1,6 @@
 "use client";
 
+import EmptyRecord from "@/components/EmptyRecord";
 import Header from "@/components/Header";
 import { TableLoadingSkeleton } from "@/components/LoadingSkeleton";
 import { Button } from "@/components/ui/button";
@@ -13,8 +14,6 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 const NoticeBoard = () => {
-  // const [data, setData] = useState<Notice[]>([]);
-  // const [loading, setLoading] = useState(true);
   const [newNotice, setNewNotice] = useState({
     title: "",
     content: "",
@@ -156,7 +155,9 @@ const NoticeBoard = () => {
 
       {loading && <TableLoadingSkeleton />}
 
-      {!loading && notices.length === 0 && <div>No attendance record</div>}
+      {!loading && notices.length === 0 && (
+        <EmptyRecord message="No Notices Found" />
+      )}
 
       {!loading && notices && (
         <>

@@ -83,7 +83,10 @@ const ActionsMenu = ({
           <DropdownMenuSeparator />
 
           <DropdownMenuItem asChild>
-            <UpdateEmployee employee={employee} />
+            <UpdateEmployee
+              employee={employee}
+              fetchEmployees={fetchEmployees}
+            />
           </DropdownMenuItem>
 
           <DropdownMenuSeparator />
