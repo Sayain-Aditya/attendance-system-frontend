@@ -8,7 +8,7 @@ import {
 import { Calendar, EllipsisVertical } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import { toast } from "sonner";
-import DeleteConfirmation from "./modals/DeleteConfirmation";
+import DeleteConfirmation from "./modals/ConfirmationModal";
 import UpdateEmployee from "./modals/UpdateEmployee";
 import { useRouter } from "next/navigation";
 

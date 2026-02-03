@@ -17,7 +17,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import DeleteConfirmation from "./modals/DeleteConfirmation";
+import DeleteConfirmation from "./modals/ConfirmationModal";
 
 // Menu items.
 const items = [

@@ -81,17 +81,15 @@ const AttendanceListPage = () => {
         <div className="flex flex-col overflow-x-auto">
           <ul
             className={cn(
-              "grid grid-cols-7 items-end gap-10 w-full min-w-6xl",
+              "grid grid-cols-6 items-end gap-10 w-full min-w-6xl",
               "border border-b-0 border-neutral-200",
               "px-5 py-2.5 bg-neutral-100 rounded-t-lg uppercase text-xs",
             )}
           >
             <li className="grid">
               <span className="leading-none font-medium">Employee Name</span>
-              <span className="leading-none font-light">Employee ID</span>
+              <span className="leading-none font-light">RFID</span>
             </li>
-
-            <li>RFID</li>
             <li>Date</li>
             <li>Role</li>
             <li>Check In</li>
@@ -102,7 +100,7 @@ const AttendanceListPage = () => {
             <ul
               key={index}
               className={cn(
-                "grid grid-cols-7 items-center gap-10 w-full min-w-6xl px-5 py-3.5",
+                "grid grid-cols-6 items-center gap-10 w-full min-w-6xl px-5 py-3.5",
                 "border-s border-e border-t last:border-b last:rounded-b-lg",
                 "*:text-sm",
               )}
@@ -112,16 +110,10 @@ const AttendanceListPage = () => {
                   {item.user?.name}
                 </span>
                 <span
-                  className={`text-[11px] font-light ${
-                    !item.user?.employeeId && "text-red-500"
-                  }`}
+                  className={`text-[11px] ${!item.user?.uid && "text-red-500"}`}
                 >
-                  {item.user?.employeeId ?? "NA"}
+                  {item.user?.uid ?? "NA"}
                 </span>
-              </li>
-
-              <li className={`${!item.date && "text-red-500"}`}>
-                {item.user?.uid ?? "NA"}
               </li>
               <li className={`${!item.date && "text-red-500"}`}>
                 {item?.date ?? "NA"}

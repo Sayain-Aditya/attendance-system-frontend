@@ -3,7 +3,7 @@
 import EmptyRecord from "@/components/EmptyRecord";
 import Header from "@/components/Header";
 import { TableLoadingSkeleton } from "@/components/LoadingSkeleton";
-import DeleteConfirmation from "@/components/modals/DeleteConfirmation";
+import DeleteConfirmation from "@/components/modals/ConfirmationModal";
 import NewUID from "@/components/modals/NewUID";
 import UpdateUID from "@/components/modals/UpdateUID";
 import { useFetchUID } from "@/hooks/useFetchUID";

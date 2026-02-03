@@ -27,7 +27,7 @@ type DeleteConfirmationProps = {
   logoutIcon?: boolean;
 };
 
-const DeleteConfirmation = ({
+const ConfirmationModal = ({
   pendingFunction,
   variant = "default",
   title = "Remove Employee",
@@ -41,7 +41,6 @@ const DeleteConfirmation = ({
       <Dialog>
         <DialogTrigger asChild>
           <Button
-            size="sm"
             variant={variant}
             className={customClassName}
           >
@@ -80,4 +79,4 @@ const DeleteConfirmation = ({
   );
 };
 
-export default DeleteConfirmation;
+export default ConfirmationModal;
