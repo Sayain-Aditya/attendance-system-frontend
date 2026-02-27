@@ -3,6 +3,7 @@ type AttendanceList = {
   checkOut: string;
   date: string;
   scanStatus: string;
+  status: string;
   user: {
     _id: string;
     name: string;
@@ -121,4 +122,5 @@ type User = {
   name: string;
   role: string;
   email: string | undefined;
+  employeeId?: string;
 };

@@ -1,6 +1,14 @@
 "use client";
 
-import { BookCheck, ClipboardClock, Home, Search, User } from "lucide-react";
+import {
+  BookCheck,
+  FilePen,
+  Home,
+  MailWarning,
+  Megaphone,
+  Search,
+  User,
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -44,17 +52,17 @@ const items = [
   {
     title: "Leave Applications",
     url: "/admin/leave-applications",
-    icon: ClipboardClock,
+    icon: FilePen,
   },
   {
     title: "Complaints",
     url: "/admin/complaints",
-    icon: ClipboardClock,
+    icon: MailWarning,
   },
   {
     title: "Notice Board",
     url: "/admin/notice-board",
-    icon: ClipboardClock,
+    icon: Megaphone,
   },
 ];
 
@@ -71,12 +79,15 @@ export default function AdminSidebar() {
 
   const handleLogout = async () => {
     try {
-      const res = await fetch("/api/auth/logout");
+      const res = await fetch("/api/auth/logout", {
+        cache: "no-store",
+      });
       if (!res.ok) {
         throw new Error("failed to logout");
       }
 
-      router.push("/sign-in");
+      router.replace("/sign-in");
+      router.refresh();
     } catch (error) {
       console.log(error);
     }

@@ -18,7 +18,7 @@ const AdminDashboard = async () => {
         throw new Error(`HTTP error: Status ${response.status}`);
       }
       const result = await response.json();
-      console.log(result.data);
+      // console.log(result.data);
 
       return result.data;
     } catch (err) {
@@ -155,12 +155,12 @@ const AdminDashboard = async () => {
             )}
           </div>
 
-          <div className="px-5 overflow-y-auto flex flex-col gap-3">
+          <div className="overflow-y-auto flex flex-col gap-3">
             {data?.recentComplaints.length === 0 && (
               <div>No Pending Complaints</div>
             )}
 
-            <div className="px-5 py-3">
+            <div className="px-5">
               {data?.recentComplaints.map((item: Complaint, index: number) => (
                 <div
                   key={index}

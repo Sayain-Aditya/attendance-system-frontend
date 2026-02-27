@@ -3,23 +3,22 @@ import { NextResponse } from "next/server";
 import { decrypt } from "./lib/session";
 
 export async function middleware(request: NextRequest) {
-  const cookie = request.cookies.get("session")?.value;
-  const session = await decrypt(cookie);
-  console.log(session);
-
-  const homePage = request.nextUrl.pathname === "/";
-  if (homePage && !cookie) {
-    return NextResponse.redirect(new URL("/sign-in", request.url));
-  }
-
   const isAuthPage = request.nextUrl.pathname === "/sign-in";
 
   const isProtected =
     request.nextUrl.pathname.startsWith("/admin") ||
     request.nextUrl.pathname.startsWith("/employee");
 
+  const token = request.cookies.get("session")?.value as string;
+  const session = await decrypt(token);
+
+  const homePage = request.nextUrl.pathname === "/";
+  if (homePage && !token) {
+    return NextResponse.redirect(new URL("/sign-in", request.url));
+  }
+
   // If trying to visit auth while logged in → redirect to dashboard
-  if (cookie) {
+  if (token) {
     if (isAuthPage || homePage) {
       if (session?.role === "Employee") {
         return NextResponse.redirect(new URL("/employee", request.url));
@@ -44,7 +43,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // If visiting protected route without auth → redirect to login
-  if (isProtected && !cookie) {
+  if (isProtected && !token) {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
 

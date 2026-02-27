@@ -13,7 +13,7 @@ export async function encrypt(payload: User) {
     .sign(encodedKey);
 }
 
-export async function decrypt(session: string | undefined = "") {
+export async function decrypt(session: string) {
   try {
     const { payload } = await jwtVerify(session, encodedKey, {
       algorithms: ["HS256"],
@@ -36,4 +36,28 @@ export async function createSession(user: User) {
     sameSite: "lax",
     path: "/",
   });
+}
+
+export async function getCurrentUser(): Promise<User | null> {
+  const cookieStore = await cookies();
+  const session = cookieStore.get("session")?.value;
+
+  if (!session) {
+    return null;
+  }
+
+  const { payload } = await jwtVerify(session, encodedKey, {
+    algorithms: ["HS256"],
+  });
+
+  const user: User = {
+    _id: payload._id as string,
+    uid: payload.uid as string,
+    name: payload.name as string,
+    role: payload.role as string,
+    email: payload.email as string,
+    employeeId: payload.employeeId as string,
+  };
+
+  return user;
 }
