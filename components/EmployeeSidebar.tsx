@@ -1,6 +1,6 @@
 "use client";
 
-import { BookCheck, ClipboardClock, Home } from "lucide-react";
+import { BookCheck, FilePen, Home, MailWarning, Megaphone } from "lucide-react";
 
 import {
   Sidebar,
@@ -29,17 +29,22 @@ const items = [
   {
     title: "Leave Applications",
     url: "/employee/leave-applications",
-    icon: ClipboardClock,
+    icon: FilePen,
   },
   {
     title: "Complaints",
     url: "/employee/complaints",
-    icon: BookCheck,
+    icon: MailWarning,
   },
   {
     title: "Notice Board",
     url: "/employee/notice-board",
-    icon: ClipboardClock,
+    icon: Megaphone,
+  },
+  {
+    title: "Attendance",
+    url: `/employee/attendance`,
+    icon: BookCheck,
   },
 ];
 
@@ -56,12 +61,15 @@ export default function EmployeeSidebar() {
 
   const handleLogout = async () => {
     try {
-      const res = await fetch("/api/auth/logout");
+      const res = await fetch("/api/auth/logout", {
+        cache: "no-store",
+      });
       if (!res.ok) {
         throw new Error("failed to logout");
       }
 
-      router.push("/sign-in");
+      router.replace("/sign-in");
+      router.refresh();
     } catch (error) {
       console.log(error);
     }

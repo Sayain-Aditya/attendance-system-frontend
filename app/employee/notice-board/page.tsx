@@ -3,24 +3,12 @@
 import EmptyRecord from "@/components/EmptyRecord";
 import Header from "@/components/Header";
 import { TableLoadingSkeleton } from "@/components/LoadingSkeleton";
-import { Button } from "@/components/ui/button";
-import { Field } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Pencil, Trash } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
 
 const NoticeBoard = () => {
   const [data, setData] = useState<Notice[]>([]);
   const [loading, setLoading] = useState(true);
-  const [newNotice, setNewNotice] = useState({
-    title: "",
-    content: "",
-    priority: "MEDIUM",
-    createdBy: "694d04e6554aaa1dcac1de66",
-  });
 
   const fetchNoticeBoard = async () => {
     try {
@@ -58,47 +46,51 @@ const NoticeBoard = () => {
       {!loading && data && (
         <>
           <div className="grid grid-cols-2 gap-2.5">
-            {data.map((item: Notice, index: number) => (
-              <div
-                key={index}
-                className={`col-span-1 flex flex-col items-end justify-between p-3 rounded-lg border border-neutral-200 gap-5 bg-neutral-100`}
-              >
-                <ul className="flex flex-col items-start justify-between gap-1 w-full *:text-sm">
-                  <li className="pl-1 w-full flex items-center justify-between">
-                    <b>{item.title}</b>
+            {data.map((item: Notice, index: number) => {
+              const TWO_DAYS_MS = 2 * 24 * 60 * 60 * 1000;
+              const date = new Date(item.createdAt);
+              const newNotice = Date.now() - date.getTime() <= TWO_DAYS_MS;
 
-                    <div className="text-xs">
-                      {new Date(item.createdAt).toLocaleDateString("en-IN", {
-                        dateStyle: "long",
-                      })}
+              return (
+                <div
+                  key={index}
+                  className={`col-span-1 flex flex-col items-end justify-between px-3 py-5 rounded-lg border border-neutral-200 gap-5 bg-neutral-100 relative`}
+                >
+                  <div className="flex items-center gap-2 text-[11px] absolute top-0 left-3.5 -translate-y-1/2 *:border *:rounded-full *:px-2 *:py-0.5 *:font-medium">
+                    {newNotice && (
+                      <div className="bg-green-200 text-green-700">
+                        New Notice
+                      </div>
+                    )}
+                    <div
+                      className={cn(
+                        item.priority === "HIGH" && "bg-red-200 text-red-600",
+                        item.priority === "MEDIUM" &&
+                          "bg-amber-200 text-amber-600",
+                        item.priority === "LOW" && "bg-white",
+                      )}
+                    >
+                      {item.priority}
                     </div>
-                  </li>
+                  </div>
+                  <ul className="flex flex-col items-start justify-between gap-1 w-full *:text-sm">
+                    <li className="pl-1 w-full flex items-center justify-between">
+                      <b>{item.title}</b>
 
-                  <li className="bg-white py-1 px-2 w-full rounded-md h-20 overflow-y-scroll">
-                    {item.content}
-                  </li>
+                      <div className="text-xs">
+                        {date.toLocaleDateString("en-US", {
+                          dateStyle: "long",
+                        })}
+                      </div>
+                    </li>
 
-                  <li>{item.priority}</li>
-                </ul>
-
-                <div className="flex items-center gap-3">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                  >
-                    <Pencil />
-                    Update
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="destructive"
-                  >
-                    <Trash />
-                    Delete
-                  </Button>
+                    <li className="bg-white p-2 w-full rounded-md h-28 overflow-y-scroll">
+                      {item.content}
+                    </li>
+                  </ul>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </>
       )}

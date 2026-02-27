@@ -3,40 +3,145 @@
 import EmptyRecord from "@/components/EmptyRecord";
 import Header from "@/components/Header";
 import { TableLoadingSkeleton } from "@/components/LoadingSkeleton";
+import { Button } from "@/components/ui/button";
+import { Field } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { useUser } from "@/contexts/userContext";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const ComplaintsPage = () => {
+  //get current user
+  const user = useUser();
+
   const [data, setData] = useState<Complaint[]>([]);
   const [loading, setLoading] = useState(true);
+  const [newComplaint, setNewComplaint] = useState({
+    userId: user && user._id,
+    subject: "",
+    description: "",
+  });
 
-  const fetchData = async () => {
+  //fetch complaints of current user
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `https://rfidattendance-mu.vercel.app/api/complaint/get?userId=${user && user._id}`,
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error: Status ${response.status}`);
+        }
+
+        const result = await response.json();
+        setData(result.data);
+        console.log(result.data);
+      } catch (err) {
+        setData([]);
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [user]);
+
+  const handleNewComplaint = async () => {
+    setLoading(true);
+    console.log("new Complaint", newComplaint);
+
     try {
       const response = await fetch(
-        "https://rfidattendance-mu.vercel.app/api/complaint/get",
+        "https://rfidattendance-mu.vercel.app/api/complaint/submit",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newComplaint),
+        },
       );
 
       if (!response.ok) {
-        throw new Error(`HTTP error: Status ${response.status}`);
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
       const result = await response.json();
-      setData(result.data);
-      console.log(result.data);
-    } catch (err) {
-      setData([]);
-      console.log(err);
+      console.log("Success:", result);
+
+      toast("You submitted the following values:", {
+        description: (
+          <pre className="mt-2 w-[320px] overflow-x-auto rounded-md p-4 text-primary">
+            <code>{JSON.stringify(newComplaint, null, 2)}</code>
+          </pre>
+        ),
+        position: "top-right",
+      });
+
+      //refetch notice board
+      // fetchNoticeBoard();
+
+      setNewComplaint({
+        ...newComplaint,
+        subject: "",
+        description: "",
+      });
+    } catch (error) {
+      console.error("Error uploading Notice:", error);
     } finally {
       setLoading(false);
+      setNewComplaint({
+        ...newComplaint,
+        subject: "",
+        description: "",
+      });
     }
   };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   return (
     <section className="space-y-5">
       <Header text="Complaints" />
+
+      <div className="flex flex-col gap-4 border p-5 rounded-md">
+        <span className="font-semibold">Create New Complaint</span>
+
+        <Field>
+          <Label htmlFor="new-complaint-title">Title</Label>
+          <Input
+            id="new-complaint-title"
+            type="text"
+            placeholder="Enter Notice Title"
+            className="font-semibold placeholder:font-normal placeholder:text-neutral-400"
+            onChange={(e) =>
+              setNewComplaint({ ...newComplaint, subject: e.target.value })
+            }
+          />
+        </Field>
+
+        <Field>
+          <Label htmlFor="new-complaint-content">Notice</Label>
+          <Textarea
+            id="new-complaint-content"
+            placeholder="Enter Complaint Details"
+            className="placeholder:text-neutral-400"
+            onChange={(e) =>
+              setNewComplaint({ ...newComplaint, description: e.target.value })
+            }
+          />
+        </Field>
+
+        <Button
+          className="w-fit"
+          variant="outline"
+          onClick={() => handleNewComplaint()}
+        >
+          Submit
+        </Button>
+      </div>
 
       {loading && <TableLoadingSkeleton />}
 

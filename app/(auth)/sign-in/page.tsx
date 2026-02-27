@@ -36,13 +36,15 @@ const Login = () => {
       }
 
       const data = await response.json();
-      console.log("data", data);
+      // console.log("data", data);
 
       if (data.user.role === "Admin") {
         router.push("/admin");
       } else {
         router.push("/employee");
       }
+
+      router.refresh();
     } catch (error) {
       console.log(error);
     } finally {
@@ -57,7 +59,9 @@ const Login = () => {
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             MMS Attendance System
           </h1>
-          <p className="text-gray-600 capitalize">Sign in to {loginAs} account</p>
+          <p className="text-gray-600 capitalize">
+            Sign in to {loginAs} account
+          </p>
         </div>
 
         <form

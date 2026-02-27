@@ -7,6 +7,7 @@ const EmployeeDashboard = async () => {
       const response = await fetch(
         "https://rfidattendance-mu.vercel.app/api/dashboard/admin",
         {
+          cache: "no-cache",
           next: {
             revalidate: 10,
           },
@@ -17,7 +18,7 @@ const EmployeeDashboard = async () => {
         throw new Error(`HTTP error: Status ${response.status}`);
       }
       const result = await response.json();
-      console.log(result.data);
+      // console.log(result.data);
 
       return result.data;
     } catch (err) {
@@ -104,63 +105,6 @@ const EmployeeDashboard = async () => {
                 <p className="text-sm">{item.content}</p>
               </div>
             ))}
-          </div>
-        </div>
-
-        <div>
-          <div className="px-5 py-4 border-b w-full">
-            <span className="font-medium text-lg">Leave Applications</span>
-          </div>
-
-          <div className="px-5 py-3 overflow-y-auto flex flex-col gap-3">
-            {data?.pendingLeaves.length === 0 && (
-              <div>No Pending Leave Applications</div>
-            )}
-
-            {data?.pendingLeaves.map((item: Leave, index: number) => (
-              <div
-                key={index}
-                className="border p-4 rounded-md"
-              >
-                <p className="font-semibold text-lg">{item.user.name}</p>
-                <p className="font-medium text-sm text-neutral-500">
-                  {item.startDate.toLocaleString()} to{" "}
-                  {item.endDate.toLocaleString()}
-                </p>
-                <p>{item.reason}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <div className="px-5 py-4 border-b w-full">
-            <span className="font-medium text-lg">Complaints Board</span>
-          </div>
-
-          <div className="px-5 py-3 overflow-y-auto flex flex-col gap-3">
-            {data?.recentComplaints.length === 0 && (
-              <div>No Pending Complaints</div>
-            )}
-
-            <div className="px-5 py-3">
-              {data?.recentComplaints.map((item: Complaint, index: number) => (
-                <div
-                  key={index}
-                  className="border p-4 rounded-md relative"
-                >
-                  <div className="text-[10px] px-2 py-1 rounded-full bg-red-200 text-red-700 absolute top-2 right-5 font-semibold tracking-normal">
-                    New
-                  </div>
-
-                  <p className="font-semibold text-lg">{item.user.name}</p>
-                  <p className="font-medium text-sm text-neutral-500">
-                    {item.description}
-                  </p>
-                  <p>{item.subject}</p>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </div>
