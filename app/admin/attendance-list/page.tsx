@@ -83,13 +83,10 @@ const AttendanceListPage = () => {
             className={cn(
               "grid grid-cols-6 items-end gap-10 w-full min-w-6xl",
               "border border-b-0 border-neutral-200",
-              "px-5 py-2.5 bg-neutral-100 rounded-t-lg uppercase text-xs",
+              "px-5 py-3.5 bg-neutral-100 rounded-t-lg uppercase text-xs",
             )}
           >
-            <li className="grid">
-              <span className="leading-none font-medium">Employee Name</span>
-              <span className="leading-none font-light">RFID</span>
-            </li>
+            <li>Employee Name</li>
             <li>Date</li>
             <li>Role</li>
             <li>Check In</li>
@@ -105,16 +102,7 @@ const AttendanceListPage = () => {
                 "*:text-sm",
               )}
             >
-              <li className="grid">
-                <span className="leading-none font-medium">
-                  {item.user?.name}
-                </span>
-                <span
-                  className={`text-[11px] ${!item.user?.uid && "text-red-500"}`}
-                >
-                  {item.user?.uid ?? "NA"}
-                </span>
-              </li>
+              <li>{item.user?.name}</li>
               <li className={`${!item.date && "text-red-500"}`}>
                 {item?.date ?? "NA"}
               </li>

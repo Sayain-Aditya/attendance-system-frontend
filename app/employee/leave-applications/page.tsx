@@ -5,8 +5,7 @@ import Header from "@/components/Header";
 import { TableLoadingSkeleton } from "@/components/LoadingSkeleton";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { Field, FieldContent, FieldGroup } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+import { Field } from "@/components/ui/field";
 import { Label } from "@/components/ui/label";
 import {
   Popover,
@@ -30,19 +29,16 @@ type newLeave = {
 const LeaveApplications = () => {
   const user = useUser();
   const currentDate = new Date();
-  const formattedDate = new Intl.DateTimeFormat("en-CA", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
+  const tomorrowDate = new Date(currentDate);
+  tomorrowDate.setDate(currentDate.getDate() + 1);
 
   const [data, setData] = useState<Leave[]>([]);
   const [loading, setLoading] = useState(true);
   const [newLeave, setNewLeave] = useState<newLeave>({
     userId: user?._id as string,
-    startDate: new Date(),
-    endDate: new Date(),
-    reason: "No reason provided",
+    startDate: tomorrowDate,
+    endDate: tomorrowDate,
+    reason: "",
   });
 
   //fetch leave applications of current user
@@ -71,9 +67,9 @@ const LeaveApplications = () => {
     fetchData();
   }, [user?._id]);
 
+  //new leave function
   const handleNewLeave = async () => {
     setLoading(true);
-    console.log("New Leave Application", newLeave);
 
     try {
       const response = await fetch(
@@ -111,7 +107,12 @@ const LeaveApplications = () => {
         reason: "",
       });
     } catch (error) {
-      console.error("Error uploading Notice:", error);
+      console.error(error);
+
+      toast("Error Submitting Application:", {
+        description: <span> Missing details in the form</span>,
+        position: "top-right",
+      });
     } finally {
       setLoading(false);
       setNewLeave({
@@ -155,6 +156,9 @@ const LeaveApplications = () => {
               >
                 <Calendar
                   mode="single"
+                  disabled={{
+                    before: newLeave.startDate,
+                  }}
                   selected={newLeave.startDate}
                   onSelect={(e) => setNewLeave({ ...newLeave, startDate: e! })}
                   defaultMonth={newLeave.startDate}
@@ -172,10 +176,10 @@ const LeaveApplications = () => {
               >
                 <Button
                   variant="outline"
-                  data-empty={!newLeave.startDate}
+                  data-empty={!newLeave.endDate}
                   className="data-[empty=true]:text-muted-foreground w-53 justify-between text-left font-normal"
                 >
-                  {newLeave.startDate ? (
+                  {newLeave.endDate ? (
                     format(newLeave.endDate, "dd-MM-yyyy")
                   ) : (
                     <span>Pick a date</span>
@@ -189,7 +193,10 @@ const LeaveApplications = () => {
               >
                 <Calendar
                   mode="single"
-                  selected={newLeave.startDate}
+                  disabled={{
+                    before: newLeave.startDate,
+                  }}
+                  selected={newLeave.endDate}
                   onSelect={(e) =>
                     setNewLeave({
                       ...newLeave,
@@ -231,7 +238,7 @@ const LeaveApplications = () => {
       )}
 
       {!loading && data && (
-        <div className="grid grid-cols-2 gap-2.5">
+        <div className="grid lg:grid-cols-2 gap-2.5">
           {data.map((item: Leave, index: number) => {
             return (
               <div
@@ -255,13 +262,9 @@ const LeaveApplications = () => {
 
                   <li>
                     <span>
-                      {item.startDate} to {item.endDate}
+                      {format(item.startDate, "dd MMM, yyyy")} to{" "}
+                      {format(item.endDate, "dd-MM-yyyy")}
                     </span>
-                  </li>
-
-                  <li className={`${!item.user.name && "text-red-500"}`}>
-                    <span className="font-semibold">By : </span>
-                    {item.user.name ?? "Unassigned"}
                   </li>
 
                   <li>

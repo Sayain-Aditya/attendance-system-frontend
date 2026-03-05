@@ -3,6 +3,7 @@
 import Header from "@/components/Header";
 import { DashboardLoadingSkeleton } from "@/components/LoadingSkeleton";
 import { useUser } from "@/contexts/userContext";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { Check, Clock, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -12,10 +13,13 @@ const EmployeeCalendar = () => {
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({ present: 0, absent: 0, total: 0 });
   const user = useUser();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const fetchAttendance = async () => {
       try {
+        setLoading(true);
+
         const month = currentMonth.toISOString().slice(0, 7);
         console.log(month);
         const response = await fetch(
@@ -213,13 +217,17 @@ const EmployeeCalendar = () => {
                           }`}
                         >
                           <div className="text-sm font-medium">{day}</div>
-                          {attendanceRecord && (
-                            <div className="text-xs mt-1">
-                              <div>{attendanceRecord.checkIn}</div>
-                              {attendanceRecord.checkOut && (
-                                <div>{attendanceRecord.checkOut}</div>
+                          {!isMobile && (
+                            <>
+                              {attendanceRecord && (
+                                <div className="text-xs mt-1">
+                                  <div>{attendanceRecord.checkIn}</div>
+                                  {attendanceRecord.checkOut && (
+                                    <div>{attendanceRecord.checkOut}</div>
+                                  )}
+                                </div>
                               )}
-                            </div>
+                            </>
                           )}
                         </div>
                       )}

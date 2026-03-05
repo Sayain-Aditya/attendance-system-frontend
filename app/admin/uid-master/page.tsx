@@ -71,9 +71,9 @@ const UIDMaster = () => {
             {UIDs.map((item: UID, index: number) => (
               <div
                 key={index}
-                className="w-full min-w-2xl flex lg:items-center lg:justify-between px-3 py-2.5 bg-neutral-100 rounded-lg border border-neutral-200 gap-6 lg:gap-16"
+                className="w-full min-w-2xl flex items-center justify-between px-3 py-2.5 bg-neutral-100 rounded-lg border border-neutral-200 gap-6 lg:gap-16"
               >
-                <ul className="flex items-center justify-between gap-6 lg:gap-10 w-full lg:*:basis-1/4 *:text-sm">
+                <ul className="grid grid-cols-4 items-center gap-6 lg:gap-10 w-full *:text-sm">
                   <li className="font-medium">{item.uid}</li>
 
                   <li>
@@ -93,7 +93,7 @@ const UIDMaster = () => {
                   </li>
 
                   <li className={`${!item.employeeId && "text-red-500"}`}>
-                    {item.employeeId ?? "No Employee Id"}
+                    {item.employeeId ?? "No Employee ID"}
                   </li>
                 </ul>
 

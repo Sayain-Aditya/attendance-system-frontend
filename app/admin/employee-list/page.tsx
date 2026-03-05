@@ -32,7 +32,7 @@ const EmployeeListPage = () => {
             {employees?.map((employee: Employee) => (
               <div
                 key={employee.uid}
-                className="flex items-center gap-5 px-3 py-2.5 bg-neutral-100 rounded-2xl border border-neutral-200"
+                className="w-full min-w-6xl flex items-center gap-5 px-3 py-2.5 bg-neutral-100 rounded-2xl border border-neutral-200"
               >
                 <ActionsMenu
                   employee={employee}
@@ -83,7 +83,9 @@ const EmployeeListPage = () => {
 
                   <div>
                     <b>Email</b>
-                    <span>{employee.email}</span>
+                    <span className="line-clamp-1 text-ellipsis">
+                      {employee.email}
+                    </span>
                   </div>
 
                   <div>

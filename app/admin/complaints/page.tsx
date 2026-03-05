@@ -45,7 +45,7 @@ const ComplaintsPage = () => {
       )}
 
       {!loading && data && (
-        <div className="grid grid-cols-2 gap-2.5">
+        <div className="grid lg:grid-cols-2 gap-2.5">
           {data.map((item: Complaint, index: number) => {
             const createdAt = new Date(item.createdAt);
 
