@@ -223,7 +223,7 @@ const EmployeeCalendar = () => {
                           <div className="text-sm font-medium">{day}</div>
                           {attendanceRecord && hoveredDate === day && (
                             <div
-                              className={`w-fit whitespace-nowrap max-md:z-10 text-xs max-md:absolute max-md:-top-10 max-md:left-1/2 max-md:-translate-x-1/2 max-md:bg-white max-md:rounded-md max-md:border max-md:px-2 max-md:py-1`}
+                              className={`lg:mt-2 w-fit whitespace-nowrap max-md:z-10 text-xs max-md:absolute max-md:-top-10 max-md:left-1/2 max-md:-translate-x-1/2 max-md:bg-white max-md:rounded-md max-md:border max-md:px-2 max-md:py-1`}
                             >
                               <div>{attendanceRecord?.checkIn}</div>
                               {attendanceRecord?.checkOut && (

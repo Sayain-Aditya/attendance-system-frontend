@@ -1,26 +1,67 @@
 "use client";
 
 import ActionsMenu from "@/components/ActionsMenu";
+import EmptyRecord from "@/components/EmptyRecord";
 import Header from "@/components/Header";
 import NewAdmin from "@/components/modals/NewAdmin";
 import NewEmployee from "@/components/modals/NewEmployee";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useFetchEmployees } from "@/hooks/useFetchEmployees";
 import { cn } from "@/lib/utils";
+import { ChevronDown } from "lucide-react";
+import { useMemo, useState } from "react";
 import { AttendanceLoadingSkeleton } from "../../../components/LoadingSkeleton";
-import EmptyRecord from "@/components/EmptyRecord";
 
 const EmployeeListPage = () => {
   const { loading, employees, setLoading, fetchEmployees } =
     useFetchEmployees();
+  const [filter, setFilter] = useState("all");
+
+  //filter data
+  const data = useMemo(
+    () =>
+      filter === "all"
+        ? employees
+        : employees.filter((employee) => employee.role === filter),
+    [filter, employees],
+  );
 
   return (
     <section className="space-y-3">
       <Header text="List Of Employees" />
 
       <div className="max-h-[83dvh] overflow-hidden flex flex-col gap-3">
-        <div className="flex items-center justify-end gap-3 w-full">
-          <NewEmployee fetchEmployees={fetchEmployees} />
-          <NewAdmin fetchEmployees={fetchEmployees} />
+        <div className="flex items-center justify-between">
+          <DropdownMenu>
+            <DropdownMenuTrigger className="h-full px-1.5 py-1.5 font-light flex items-center gap-1 bg-neutral-100 w-fit rounded-md border border-neutral-200 capitalize">
+              <span className="text-sm">{filter}</span>
+              <ChevronDown
+                size={16}
+                strokeWidth={1.5}
+              />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuItem onSelect={() => setFilter("all")}>
+                All
+              </DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => setFilter("Admin")}>
+                Admins
+              </DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => setFilter("Employee")}>
+                Employees
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <div className="flex items-center justify-center gap-3">
+            <NewEmployee fetchEmployees={fetchEmployees} />
+            <NewAdmin fetchEmployees={fetchEmployees} />
+          </div>
         </div>
 
         {loading && <AttendanceLoadingSkeleton />}
@@ -29,7 +70,7 @@ const EmployeeListPage = () => {
 
         {!loading && (
           <div className="flex flex-col gap-3 overflow-auto">
-            {employees?.map((employee: Employee) => (
+            {data?.map((employee: Employee) => (
               <div
                 key={employee.uid}
                 className="w-full min-w-6xl flex items-center gap-5 px-3 py-2.5 bg-neutral-100 rounded-2xl border border-neutral-200"
