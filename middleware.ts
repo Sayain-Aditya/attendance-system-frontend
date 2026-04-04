@@ -10,12 +10,13 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith("/employee");
 
   const token = request.cookies.get("session")?.value as string;
-  const session = await decrypt(token);
 
   const homePage = request.nextUrl.pathname === "/";
   if (homePage && !token) {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
+
+  const session = token ? await decrypt(token) : null;
 
   // If trying to visit auth while logged in → redirect to dashboard
   if (token) {
