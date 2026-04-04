@@ -73,7 +73,12 @@ const EmployeeListPage = () => {
             {data?.map((employee: Employee) => (
               <div
                 key={employee.uid}
-                className="w-full min-w-6xl flex items-center gap-5 px-3 py-2.5 bg-neutral-100 rounded-2xl border border-neutral-200"
+                className={cn(
+                  "w-full min-w-6xl flex items-center gap-5 px-3 py-2.5 rounded-2xl border border-neutral-200",
+                  employee.role === "Employee"
+                    ? "bg-neutral-100"
+                    : "bg-green-100",
+                )}
               >
                 <ActionsMenu
                   employee={employee}

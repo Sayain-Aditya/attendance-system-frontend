@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import DeleteConfirmation from "./modals/ConfirmationModal";
 import UpdateEmployee from "./modals/UpdateEmployee";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const ActionsMenu = ({
   modal,
@@ -77,7 +78,9 @@ const ActionsMenu = ({
         >
           <DropdownMenuItem className="focus:bg-primary-1/20 cursor-pointer">
             <Calendar color="black" />
-            See Attendance
+            <Link href={`/admin/employee-record/${employee._id}`}>
+              See Attendance
+            </Link>
           </DropdownMenuItem>
 
           <DropdownMenuSeparator />
