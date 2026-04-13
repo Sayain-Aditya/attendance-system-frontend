@@ -4,6 +4,7 @@ import EmptyRecord from "@/components/EmptyRecord";
 import Header from "@/components/Header";
 import { TableLoadingSkeleton } from "@/components/LoadingSkeleton";
 import { Button } from "@/components/ui/button";
+import { format } from "date-fns";
 import { Check, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -111,6 +112,9 @@ const LeaveApplications = () => {
                 <li className={`${!item.user.uid && "text-red-500"}`}>
                   {item.user.uid ?? "No Employee Id"}
                 </li>
+
+                <li>{format(item.startDate, "dd-MMM-yyyy")}</li>
+                <li>{format(item.endDate, "dd-MMM-yyyy")}</li>
               </ul>
 
               <div className="flex items-center gap-3">
