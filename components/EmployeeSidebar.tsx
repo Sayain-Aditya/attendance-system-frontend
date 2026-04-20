@@ -27,6 +27,11 @@ const items = [
     icon: Home,
   },
   {
+    title: "Attendance",
+    url: `/employee/attendance`,
+    icon: BookCheck,
+  },
+  {
     title: "Leave Applications",
     url: "/employee/leave-applications",
     icon: FilePen,
@@ -40,11 +45,6 @@ const items = [
     title: "Notice Board",
     url: "/employee/notice-board",
     icon: Megaphone,
-  },
-  {
-    title: "Attendance",
-    url: `/employee/attendance`,
-    icon: BookCheck,
   },
 ];
 

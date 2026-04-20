@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import { DashboardLoadingSkeleton } from "@/components/LoadingSkeleton";
 import { useUser } from "@/contexts/userContext";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Check, Clock, X } from "lucide-react";
+import { CalendarMinus, Check, ClockAlert, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const EmployeeCalendar = () => {
@@ -123,123 +123,143 @@ const EmployeeCalendar = () => {
       {loading && <DashboardLoadingSkeleton />}
 
       {!loading && (
-        <div className="space-y-6 w-full">
-          {/* Stats */}
-          <div className="grid lg:grid-cols-3 gap-5 items-start max-h-fit">
-            <div className="flex items-center border rounded-xl p-5 gap-3">
-              <span>
-                <Check className="bg-green-100 p-2 rounded-full size-10 text-green-800" />
-              </span>
-              <div className="grid">
-                <span>Days Present</span>
-                <span className="font-bold text-xl leading-none">
-                  {stats.present}
-                </span>
-              </div>
-            </div>
+        <>
+          {/* User Details */}
+          <div>
+            <span className="text-xs">Employee Name</span>
+            <h3 className="font-bold">{user?.name}</h3>
 
-            <div className="flex items-center border rounded-xl p-5 gap-3">
-              <span>
-                <X className="bg-red-100 p-2 rounded-full size-10 text-red-800" />
-              </span>
-              <div className="grid">
-                <span>Days Absent</span>
-                <span className="font-bold text-xl leading-none">
-                  {stats.absent}
-                </span>
-              </div>
-            </div>
-
-            <div className="flex items-center border rounded-xl p-5 gap-3">
-              <span>
-                <Clock className="bg-amber-100 p-2 rounded-full size-10 text-amber-800" />
-              </span>
-              <div className="grid">
-                <span>Total Days</span>
-                <span className="font-bold text-xl leading-none">
-                  {stats.total}
-                </span>
-              </div>
-            </div>
+            <span className="text-xs">Employee UID</span>
+            <h3 className="font-bold">{user?.uid}</h3>
           </div>
 
-          {/* Calendar */}
-          <div className="bg-white rounded-lg shadow-md">
-            <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-              <h3 className="lg:text-lg font-medium text-gray-900">
-                Attendance Calendar
-              </h3>
-              <div className="max-lg:text-sm flex items-center lg:space-x-4">
-                <button
-                  onClick={() => navigateMonth(-1)}
-                  className="p-2 hover:bg-gray-100 rounded-lg"
-                >
-                  ←
-                </button>
-                <span className="font-medium text-gray-900">
-                  {formatMonth(currentMonth)}
-                </span>
-                <button
-                  onClick={() => navigateMonth(1)}
-                  className="p-2 hover:bg-gray-100 rounded-lg"
-                >
-                  →
-                </button>
-              </div>
-            </div>
-
-            <div className="p-6">
-              <div className="grid grid-cols-7 gap-2 mb-4">
-                {weekDays.map((day) => (
-                  <div
-                    key={day}
-                    className="text-center text-sm font-medium text-gray-500 py-2"
+          <div className="flex flex-col lg:flex-row justify-between gap-6 w-full">
+            {/* Calendar */}
+            <div className="bg-white rounded-lg shadow-md w-full border">
+              <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                <h3 className="lg:text-lg font-medium text-gray-900">
+                  Attendance Calendar
+                </h3>
+                <div className="max-lg:text-sm flex items-center lg:space-x-4">
+                  <button
+                    onClick={() => navigateMonth(-1)}
+                    className="p-2 hover:bg-gray-100 rounded-lg"
                   >
-                    {day}
-                  </div>
-                ))}
+                    ←
+                  </button>
+                  <span className="font-medium text-gray-900">
+                    {formatMonth(currentMonth)}
+                  </span>
+                  <button
+                    onClick={() => navigateMonth(1)}
+                    className="p-2 hover:bg-gray-100 rounded-lg"
+                  >
+                    →
+                  </button>
+                </div>
               </div>
 
-              <div className="grid grid-cols-7 gap-2">
-                {days.map((day, index) => {
-                  const attendanceRecord = getAttendanceForDate(day);
-
-                  return (
+              <div className="p-6">
+                <div className="grid grid-cols-7 gap-2 mb-4">
+                  {weekDays.map((day) => (
                     <div
-                      key={index}
-                      className="aspect-square relative"
+                      key={day}
+                      className="text-center text-sm font-medium text-gray-500 py-2"
                     >
-                      {day && (
-                        <div
-                          className={`w-full h-full border-2 rounded-lg p-2 ${
-                            attendanceRecord
-                              ? getStatusColor(attendanceRecord.status)
-                              : "bg-gray-50 border-gray-200"
-                          }`}
-                          onMouseEnter={() => !isMobile && setHoveredDate(day)}
-                          onMouseLeave={() => !isMobile && setHoveredDate(null)}
-                          onClick={() => isMobile && setHoveredDate(day)}
-                        >
-                          <div className="text-sm font-medium">{day}</div>
-                          {attendanceRecord && hoveredDate === day && (
-                            <div
-                              className={`lg:mt-2 w-fit whitespace-nowrap max-md:z-10 text-xs max-md:absolute max-md:-top-10 max-md:left-1/2 max-md:-translate-x-1/2 max-md:bg-white max-md:rounded-md max-md:border max-md:px-2 max-md:py-1`}
-                            >
-                              <div>{attendanceRecord?.checkIn}</div>
-                              {attendanceRecord?.checkOut && (
-                                <div>{attendanceRecord.checkOut}</div>
-                              )}
-                            </div>
-                          )}
-                        </div>
-                      )}
+                      {day}
                     </div>
-                  );
-                })}
+                  ))}
+                </div>
+
+                <div className="grid grid-cols-7 gap-2">
+                  {days.map((day, index) => {
+                    const attendanceRecord = getAttendanceForDate(day);
+
+                    return (
+                      <div
+                        key={index}
+                        className="aspect-square relative"
+                      >
+                        {day && (
+                          <div
+                            className={`w-full h-full border-2 rounded-lg p-2 ${
+                              attendanceRecord
+                                ? getStatusColor(attendanceRecord.status)
+                                : "bg-gray-50 border-gray-200"
+                            }`}
+                            onMouseEnter={() =>
+                              !isMobile && setHoveredDate(day)
+                            }
+                            onMouseLeave={() =>
+                              !isMobile && setHoveredDate(null)
+                            }
+                            onClick={() => isMobile && setHoveredDate(day)}
+                          >
+                            <div className="text-sm font-medium">{day}</div>
+                            {attendanceRecord && hoveredDate === day && (
+                              <div
+                                className={`lg:mt-2 w-fit whitespace-nowrap max-md:z-10 text-xs max-md:absolute max-md:-top-10 max-md:left-1/2 max-md:-translate-x-1/2 max-md:bg-white max-md:rounded-md max-md:border max-md:px-2 max-md:py-1`}
+                              >
+                                <div>{attendanceRecord?.checkIn}</div>
+                                {attendanceRecord?.checkOut && (
+                                  <div>{attendanceRecord.checkOut}</div>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* Stats */}
+            <div className="flex lg:flex-col grow-0 gap-2 lg:gap-5 items-start max-h-fit lg:max-w-xs w-full *:w-full">
+              <div className="rounded-xl shadow p-3 lg:p-5 space-y-2 bg-green-100">
+                <div className="flex items-center gap-2">
+                  <Check className="bg-green-600 p-1 lg:p-2 rounded-full size-6 lg:size-10 text-white" />
+                  <span className="font-bold text-xl leading-none">
+                    {stats.present}
+                  </span>
+                </div>
+                <span className="text-green-600 font-medium">Present</span>
+              </div>
+
+              <div className="rounded-xl shadow p-3 lg:p-5 space-y-2 bg-amber-100">
+                <div className="flex items-center gap-2">
+                  <ClockAlert className="bg-amber-600 p-1 lg:p-2 rounded-full size-6 lg:size-10 text-white" />
+                  <span className="font-bold text-xl leading-none">
+                    {/* {stats.late} */}
+                    N/A
+                  </span>
+                </div>
+                <span className="text-amber-600 font-medium">Late</span>
+              </div>
+
+              <div className="rounded-xl shadow p-3 lg:p-5 space-y-2 bg-red-100">
+                <div className="flex items-center gap-2">
+                  <X className="bg-red-600 p-1 lg:p-2 rounded-full size-6 lg:size-10 text-white" />
+                  <span className="font-bold text-xl leading-none">
+                    {stats.absent}
+                  </span>
+                </div>
+                <span className="text-red-600 font-medium">Absent</span>
+              </div>
+
+              <div className="rounded-xl shadow p-3 lg:p-5 space-y-2 bg-amber-100">
+                <div className="flex items-center gap-2">
+                  <CalendarMinus className="bg-amber-600 p-1 lg:p-2 rounded-full size-6 lg:size-10 text-white" />
+                  <span className="font-bold text-xl leading-none">
+                    {stats.total}
+                  </span>
+                </div>
+                <span className="text-amber-600 font-medium">Leaves</span>
               </div>
             </div>
           </div>
-        </div>
+        </>
       )}
     </section>
   );

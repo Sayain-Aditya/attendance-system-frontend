@@ -2,9 +2,8 @@
 
 import Header from "@/components/Header";
 import { DashboardLoadingSkeleton } from "@/components/LoadingSkeleton";
-import { useUser } from "@/contexts/userContext";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Check, Clock, X } from "lucide-react";
+import { CalendarMinus, Check, ClockAlert, X } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -141,7 +140,7 @@ const EmployeeCalendar = () => {
 
           <div className="flex flex-col lg:flex-row justify-between gap-6 w-full">
             {/* Calendar */}
-            <div className="bg-white rounded-lg shadow-md w-full">
+            <div className="bg-white rounded-lg shadow-md w-full border">
               <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
                 <h3 className="lg:text-lg font-medium text-gray-900">
                   Attendance Calendar
@@ -235,9 +234,10 @@ const EmployeeCalendar = () => {
 
               <div className="rounded-xl shadow p-3 lg:p-5 space-y-2 bg-amber-100">
                 <div className="flex items-center gap-2">
-                  <X className="bg-amber-600 p-1 lg:p-2 rounded-full size-6 lg:size-10 text-white" />
+                  <ClockAlert className="bg-amber-600 p-1 lg:p-2 rounded-full size-6 lg:size-10 text-white" />
                   <span className="font-bold text-xl leading-none">
-                    {stats.absent}
+                    {/* {stats.late} */}
+                    N/A
                   </span>
                 </div>
                 <span className="text-amber-600 font-medium">Late</span>
@@ -255,12 +255,12 @@ const EmployeeCalendar = () => {
 
               <div className="rounded-xl shadow p-3 lg:p-5 space-y-2 bg-amber-100">
                 <div className="flex items-center gap-2">
-                  <Clock className="bg-amber-600 p-1 lg:p-2 rounded-full size-6 lg:size-10 text-white" />
+                  <CalendarMinus className="bg-amber-600 p-1 lg:p-2 rounded-full size-6 lg:size-10 text-white" />
                   <span className="font-bold text-xl leading-none">
                     {stats.total}
                   </span>
                 </div>
-                <span className="text-amber-600 font-medium">Total</span>
+                <span className="text-amber-600 font-medium">Leaves</span>
               </div>
             </div>
           </div>
