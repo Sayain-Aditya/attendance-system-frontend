@@ -82,18 +82,16 @@ const LeaveApplications = () => {
       )}
 
       {!loading && data && (
-        <div className="flex flex-col gap-2.5">
+        <div className="grid lg:grid-cols-3 gap-5">
           {data.map((item: Leave, index: number) => (
             <div
               key={index}
-              className="w-full flex items-center justify-between px-3 py-2.5 bg-neutral-100 rounded-lg border border-neutral-200 gap-16"
+              className="w-full flex flex-col items-end justify-between p-2 pt-5 bg-neutral-100 rounded-lg border border-neutral-300 shadow-md"
             >
-              <ul className="flex items-center justify-between gap-10 w-full *:basis-1/4 *:text-sm">
-                <li className="font-medium">{item.reason}</li>
-
-                <li>
+              <ul className="flex flex-col gap-2.5 w-full *:text-sm">
+                <li className="flex flex-row-reverse items-start">
                   <span
-                    className={`text-sm px-3 py-1 rounded-full font-semibold w-fit ${
+                    className={`text-xs px-3 py-1 rounded-full font-semibold w-fit ${
                       item.status === "PENDING"
                         ? "bg-amber-200 text-amber-500"
                         : item.status === "APPROVED"
@@ -103,21 +101,34 @@ const LeaveApplications = () => {
                   >
                     {item.status ?? "NA"}
                   </span>
+
+                  <div className="w-full">
+                    <div>
+                      <span className="font-bold text-base leading-none">
+                        {item.user.name ?? "Unassigned"}
+                      </span>
+                    </div>
+
+                    <div>
+                      <span className="text-neutral-500">
+                        {format(item.startDate, "dd MMM, yyyy")} -{" "}
+                        {format(item.endDate, "dd MMM, yyyy")}
+                      </span>
+                    </div>
+                  </div>
                 </li>
 
-                <li className={`${!item.user.name && "text-red-500"}`}>
-                  {item.user.name ?? "Unassigned"}
-                </li>
+                <li className={`${!item.user.name && "text-red-500"}`}></li>
 
-                <li className={`${!item.user.uid && "text-red-500"}`}>
-                  {item.user.uid ?? "No Employee Id"}
+                <li className="w-full bg-white p-2 rounded-md border space-y-2">
+                  <div className="font-bold underline underline-offset-2">
+                    Reason
+                  </div>
+                  <div className="text-lg">{item.reason}</div>
                 </li>
-
-                <li>{format(item.startDate, "dd-MMM-yyyy")}</li>
-                <li>{format(item.endDate, "dd-MMM-yyyy")}</li>
               </ul>
 
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 mt-3">
                 <Button
                   size="sm"
                   variant="outline"

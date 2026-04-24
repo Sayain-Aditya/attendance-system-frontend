@@ -262,8 +262,8 @@ const LeaveApplications = () => {
 
                   <li>
                     <span>
-                      {format(item.startDate, "dd MMM, yyyy")} to{" "}
-                      {format(item.endDate, "dd-MM-yyyy")}
+                      {format(item.startDate, "dd MMM, yyyy")} -{" "}
+                      {format(item.endDate, "dd MMM, yyyy")}
                     </span>
                   </li>
 
