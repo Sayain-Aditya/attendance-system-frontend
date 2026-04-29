@@ -125,18 +125,30 @@ const EmployeeCalendar = () => {
     <section className="space-y-5 relative h-full flex flex-col">
       <Header text={`Attendance Record`} />
 
-      {loading && <DashboardLoadingSkeleton />}
+      <div>
+        <span className="text-xs">Employee Name</span>
+        <h3 className="font-bold">{user?.name}</h3>
+
+        <span className="text-xs">Employee UID</span>
+        <h3 className="font-bold">{user?.uid}</h3>
+      </div>
+
+      {loading && (
+        <div className="grid max-lg:grid-rows-7 lg:grid-cols-11 gap-6 h-full py-5">
+          <div className="max-lg:row-span-5 lg:col-span-8 w-full h-full bg-neutral-200 rounded-lg animate-pulse" />
+
+          <div className="flex lg:flex-col max-lg:row-span-2 lg:col-span-3 gap-5 lg:w-full lg:h-full *:w-1/4 *:lg:w-full *:lg:h-full *:bg-neutral-200 *:rounded-md *:animate-pulse">
+            <div />
+            <div />
+            <div />
+            <div />
+          </div>
+        </div>
+      )}
 
       {!loading && (
         <>
           {/* User Details */}
-          <div>
-            <span className="text-xs">Employee Name</span>
-            <h3 className="font-bold">{user?.name}</h3>
-
-            <span className="text-xs">Employee UID</span>
-            <h3 className="font-bold">{user?.uid}</h3>
-          </div>
 
           <div className="flex flex-col lg:flex-row justify-between gap-6 w-full">
             {/* Calendar */}

@@ -157,7 +157,7 @@ const LeaveApplications = () => {
                 <Calendar
                   mode="single"
                   disabled={{
-                    before: newLeave.startDate,
+                    before: tomorrowDate,
                   }}
                   selected={newLeave.startDate}
                   onSelect={(e) => setNewLeave({ ...newLeave, startDate: e! })}
@@ -194,7 +194,7 @@ const LeaveApplications = () => {
                 <Calendar
                   mode="single"
                   disabled={{
-                    before: newLeave.startDate,
+                    before: tomorrowDate,
                   }}
                   selected={newLeave.endDate}
                   onSelect={(e) =>
