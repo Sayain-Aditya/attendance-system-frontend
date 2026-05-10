@@ -55,11 +55,6 @@ const LeaveApplications = () => {
       console.log("Success:", result);
 
       toast("The Leave Status been updated", {
-        description: (
-          <pre className="mt-2 w-[320px] overflow-x-auto rounded-md p-4 text-primary">
-            <code>{JSON.stringify(data, null, 2)}</code>
-          </pre>
-        ),
         position: "top-right",
       });
     } catch (error) {

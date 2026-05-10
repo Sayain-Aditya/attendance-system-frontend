@@ -46,6 +46,11 @@ const items = [
     url: "/employee/notice-board",
     icon: Megaphone,
   },
+  {
+    title: "Profile",
+    url: "/employee/profile",
+    icon: Megaphone,
+  },
 ];
 
 export default function EmployeeSidebar() {

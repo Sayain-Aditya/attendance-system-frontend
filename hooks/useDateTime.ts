@@ -3,7 +3,7 @@ import * as React from "react";
 export function useDateTime() {
   const [now, setNow] = React.useState(() => new Date());
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     const interval = setInterval(() => {
       setNow(new Date());
     }, 1000);

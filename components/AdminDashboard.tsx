@@ -84,8 +84,8 @@ const AdminDashboard = async () => {
         </div>
       </div>
 
-      {/* Notice Board */}
       <div className="max-lg:pb-5 flex flex-col lg:flex-row items-start justify-center h-full gap-5 *:border *:rounded-xl *:w-full *:h-full">
+        {/* Notice Board */}
         <div>
           <div className="px-5 py-4 border-b w-full">
             <span className="font-medium text-lg">Notice Board</span>
@@ -97,17 +97,21 @@ const AdminDashboard = async () => {
             {data?.notices.map((item: Notice, index: number) => (
               <div
                 key={index}
-                className="border p-4 rounded-md"
+                className={`p-4 rounded-md bg-neutral-100 relative`}
               >
-                <p className="font-medium text-xs text-neutral-600">
-                  {new Date(item.createdAt).toLocaleDateString("en-IN", {
-                    day: "2-digit",
-                    month: "short",
-                    year: "numeric",
-                  })}
+                <p className="font-medium text-xs text-neutral-600 mb-1 flex items-end justify-between">
+                  <span
+                    className={`border px-2 py-1 rounded text-[10px] font-semibold tracking-wide w-fit ${item.priority === "HIGH" ? "border-red-500 bg-red-200 text-red-500" : item.priority === "MEDIUM" ? "border-amber-500 bg-amber-200 text-amber-500" : "border-neutral-500 bg-neutral-200 text-neutral-500"}`}
+                  >
+                    {item.priority}
+                  </span>
+
+                  <span>{format(item.createdAt, "dd MMM, yyyy")}</span>
                 </p>
-                <p className="font-semibold text-lg">{item.title}</p>
-                <p className="text-sm">{item.content}</p>
+                <p className="font-bold text-lg mb-1">{item.title}</p>
+                <p className="text-sm whitespace-pre-line bg-white p-2 rounded-md border">
+                  {item.content}
+                </p>
               </div>
             ))}
           </div>
@@ -140,6 +144,7 @@ const AdminDashboard = async () => {
           </div>
         </div>
 
+        {/* Complaints */}
         <div>
           <div className="px-5 py-4 border-b w-full">
             <span className="font-medium text-lg">Complaints Board</span>

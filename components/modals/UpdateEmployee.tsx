@@ -210,27 +210,51 @@ const UpdateEmployee = ({
                 />
               </Field>
 
-              <Controller
-                name="role"
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="update-employee-form-role">
-                      Role
-                    </FieldLabel>
-                    <Input
-                      {...field}
-                      id="update-employee-form-role"
-                      aria-invalid={fieldState.invalid}
-                      placeholder="Enter Name"
-                      autoComplete="off"
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
-              />
+              <Field orientation="horizontal">
+                <Controller
+                  name="role"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor="update-employee-form-role">
+                        Role
+                      </FieldLabel>
+                      <Input
+                        {...field}
+                        id="update-employee-form-role"
+                        aria-invalid={fieldState.invalid}
+                        placeholder="Enter Name"
+                        autoComplete="off"
+                      />
+                      {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+
+                <Controller
+                  name="password"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor="update-employee-password">
+                        Password
+                      </FieldLabel>
+                      <Input
+                        {...field}
+                        id="update-employee-password"
+                        aria-invalid={fieldState.invalid}
+                        placeholder="Enter Password"
+                        autoComplete="off"
+                      />
+                      {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+              </Field>
 
               <Controller
                 name="address"
@@ -266,17 +290,10 @@ const UpdateEmployee = ({
 
           <Field orientation="horizontal">
             <Button
-              type="button"
-              variant="outline"
-              onClick={() => form.reset()}
-            >
-              Reset
-            </Button>
-            <Button
               type="submit"
               form="update-employee-form"
             >
-              Submit
+              Update Details
             </Button>
           </Field>
         </DialogContent>

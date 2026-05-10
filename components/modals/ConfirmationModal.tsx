@@ -25,6 +25,15 @@ type DeleteConfirmationProps = {
   message?: string;
   customClassName?: string | undefined;
   logoutIcon?: boolean;
+  size?:
+    | "default"
+    | "sm"
+    | "lg"
+    | "icon"
+    | "icon-sm"
+    | "icon-lg"
+    | null
+    | undefined;
 };
 
 const ConfirmationModal = ({
@@ -35,12 +44,14 @@ const ConfirmationModal = ({
   customClassName,
   logoutIcon,
   btnTitle = "Remove",
+  size = "default",
 }: DeleteConfirmationProps) => {
   return (
     <>
       <Dialog>
         <DialogTrigger asChild>
           <Button
+            size={size}
             variant={variant}
             className={customClassName}
           >
